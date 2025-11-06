@@ -4,7 +4,9 @@ import router from "./routes/index.js";
 import cors from "cors";
 import morgan from "morgan";
 import {connectDB} from "./config/db.js";
+import {init} from "./config/init.js";
 import cookieParser from "cookie-parser";
+
 
 dotenv.config();
 
@@ -18,6 +20,7 @@ app.use(express.json());
 app.use(cookieParser());
 
 connectDB(DB_URI);
+init();
 router(app);
 
 
