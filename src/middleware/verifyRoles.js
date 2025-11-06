@@ -1,9 +1,6 @@
-import User from "../models/User.js";
+import User from "../model/User.js";
 import jwt from "jsonwebtoken";
 import ApiResponse from "../utils/ApiResponse.js";
-import dotenv from "dotenv";
-
-dotenv.config();
 
 const JWT_SECRET = process.env.ACCESS_TOKEN_SECRET;
 
@@ -22,7 +19,7 @@ const verifyRoles = (...allowedRoles) => {
         if (!user) {
           return ApiResponse.badRequest(res, "User not found");
         }
-        // Check if user's role is in the allowedRoles
+
         if (!allowedRoles.includes(user.role)) {
           return ApiResponse.unauthorized(res, "You do not have permission to access this resource");
         }

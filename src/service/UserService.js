@@ -1,14 +1,9 @@
 import User from "../model/User.js";
 import AppError from "../utils/AppError.js";
-import bcrypt from "bcryptjs";
+import { generateAccessToken, generateRefreshToken } from "../utils/Token.js";
 import jwt from "jsonwebtoken";
-import dotenv from "dotenv";
 
-dotenv.config();
-
-const ACCESS_TOKEN_SECRET = process.env.ACCESS_TOKEN_SECRET || "mysecretkey";
-const ACCESS_TOKEN_EXPIRE = process.env.ACCESS_TOKEN_EXPIRE || "1d"
-
+const REFRESH_TOKEN_SECRET = process.env.REFRESH_TOKEN_SECRET || "mysecretkey";
 class UserService {
     async register(username, email, password) {
         if (!username || !email || !password) 
@@ -18,20 +13,16 @@ class UserService {
         if (isExistUser) 
             throw new AppError("Email has been used");
 
-        const hashedPassword = await bcrypt.hash(password, 10);
-        const newUser = await User.create({
-            email,
-            username,
-            password: hashedPassword,
-        })
+        const newUser = await User.create({email,username,password})
+        const refreshToken = generateRefreshToken(newUser);
+        const accessToken = generateAccessToken(newUser);
+
+        newUser.refreshToken = refreshToken;
+        newUser.save();
 
         return {
-            id: newUser._id,
-            email: newUser.email,
-            username: newUser.username,
-            role: newUser.role,
-            avatar: newUser.avatar,
-            isVerified: newUser.isVerified
+            refreshToken, 
+            accessToken
         }
     }
 
@@ -40,25 +31,52 @@ class UserService {
             throw new AppError("All fields are request");
 
         const user = await User.findOne({email: email});
-        const isValid = await bcrypt.compare(password, user.password);
-        if (!user || !isValid)
+        if(!user)
+            throw new AppError("User not found");
+
+        const isValid = await user.comparePassword(password);
+        if (!isValid)
             throw new AppError("Email or Password is invalid");
 
-        const accessToken = jwt.sign({
-            id: user._id,
-            email: user.email,
-            role: user.role,
-        }, ACCESS_TOKEN_SECRET, {ACCESS_TOKEN_EXPIRE});
+        const accessToken = generateAccessToken(user);
+        const refreshToken = generateRefreshToken(user);
+
+        user.refreshToken = refreshToken;
+        user.save();
 
         return {
-            accessToken,
-            user: {
-                id: user._id,
-                email: user.email,
-                username: user.username,
-            },
-        };
+            refreshToken,
+            accessToken
+        } 
     }
+
+    async refresh(refreshToken) {
+        if (!refreshToken) 
+            throw new AppError("No refresh token", 401);
+
+        const user = await User.findOne({ refreshToken });
+        if (!user) 
+            throw new AppError("Invalid refresh token");
+        
+        let accessToken = null;
+        jwt.verify(refreshToken, REFRESH_TOKEN_SECRET, (err, decoded) => {
+            if (err || user._id.toString() !== decoded.id)
+                throw new AppError("Invalid refresh token")
+
+            accessToken = generateAccessToken(user);
+        });
+        return accessToken;
+    };
+
+    async logout(refreshToken) {
+        const user = await User.findOne({ refreshToken });
+        if (!user) 
+            return res.sendStatus(204);
+
+        user.refreshToken = null;
+        await user.save();
+        return true;
+    };
 };
 
 export default new UserService();

@@ -1,8 +1,8 @@
-import userRoutes from "./userRoutes.js";
+import userRoutes from "./authRoutes.js";
 import errorHandler from "../middleware/errorHandler.js";
 
 export default function router(app) {
-    app.use("/api/user", userRoutes);
+    app.use("/api/auth", userRoutes);
 
     app.use(errorHandler);
 }

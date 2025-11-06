@@ -6,6 +6,8 @@ const router = express.Router();
 
 router.route("/register").post(UserController.register);
 router.route("/login").post(UserController.login);
+router.route("/refresh").post(UserController.refresh);
+router.route("/logout").post(UserController.logout);
 router.route("/").get(UserController.index);
 
 export default router;
