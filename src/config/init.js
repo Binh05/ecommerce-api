@@ -15,6 +15,18 @@ export const init = async() => {
                 console.error("Can not create new admin");
             }
         }
+
+        const user = await User.findOne({role: ROLE.USER})
+        if (!user) {
+            const newAdmin = await User.create({email: "songoku@example.com", username: "Songoku", password: "12345678", role: ROLE.USER});
+            if (newAdmin)
+            {
+                console.log("New user has been created with default password, please change password as soon as possible!");
+            }
+            else{
+                console.error("Can not create new user");
+            }
+        }
     }
     catch(err) {
         console.log(err);

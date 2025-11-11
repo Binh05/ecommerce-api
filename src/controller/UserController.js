@@ -38,7 +38,10 @@ class UserController {
                 sameSite: "strict",
             });
 
-            return ApiResponse.success(res, result.accessToken);
+            return ApiResponse.success(res, {
+                accessToken: result.accessToken,
+                role: result.role
+            });
         }
         catch(err) {
             next(err);

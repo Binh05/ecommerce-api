@@ -46,8 +46,10 @@ class UserService {
 
         return {
             refreshToken,
-            accessToken
+            accessToken,
+            role: user.role 
         } 
+ 
     }
 
     async refresh(refreshToken) {
