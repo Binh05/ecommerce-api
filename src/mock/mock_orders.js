@@ -1,11 +1,12 @@
 // mock_orders.js
+import STATUS from "../config/statusOrder.js"
 const orders = [
     {
         id: "ORD001",
         customer: "Nguyễn Văn A",
         email: "vana@example.com",
         total: 39989000,
-        status: "Chờ xác nhận",
+        status: STATUS.ChoXacNhan,
         date: "2025-10-20",
         items: [
             { name: "iPhone 15 Pro Max", quantity: 1, price: 32990000 },
@@ -17,7 +18,7 @@ const orders = [
         customer: "Trần Thị B",
         email: "thib@example.com",
         total: 9998000,
-        status: "Đã xác nhận",
+        status: STATUS.DaXacNhan,
         date: "2025-10-21",
         items: [
             { name: "Beats Flex Wireless Earphones", quantity: 2, price: 4999000 },
@@ -28,7 +29,7 @@ const orders = [
         customer: "Lê Minh C",
         email: "minhc@example.com",
         total: 699700,
-        status: "Chờ xác nhận",
+        status: STATUS.ChoXacNhan,
         date: "2025-10-22",
         items: [
             { name: "Apple iPhone Charger", quantity: 2, price: 199900 },
@@ -40,7 +41,7 @@ const orders = [
         customer: "Phạm Quang D",
         email: "quangd@example.com",
         total: 48990000,
-        status: "Đã xác nhận",
+        status: STATUS.DaXacNhan,
         date: "2025-10-22",
         items: [
             { name: "MacBook Pro M3 2024", quantity: 1, price: 48990000 },
@@ -52,7 +53,7 @@ const orders = [
         customer: "Hoàng Thị E",
         email: "thie@example.com",
         total: 21489000,
-        status: "Đang giao",
+        status: STATUS.ChoXacNhan,
         date: "2025-10-23",
         items: [
             { name: "Apple Watch Ultra 2", quantity: 1, price: 21489000 },
@@ -85,7 +86,7 @@ const orders = [
         customer: "Bùi Minh H",
         email: "minhh@example.com",
         total: 16999000,
-        status: "Chờ xác nhận",
+        status: STATUS.ChoXacNhan,
         date: "2025-10-24",
         items: [
             { name: "iPad Air M1", quantity: 1, price: 16999000 },
@@ -97,7 +98,7 @@ const orders = [
         customer: "Vũ Thanh I",
         email: "thanhi@example.com",
         total: 41980000,
-        status: "Đang giao",
+        status: STATUS.ChoXacNhan,
         date: "2025-10-25",
         items: [
             { name: "iPhone 15 Pro", quantity: 2, price: 20990000 },
@@ -119,7 +120,7 @@ const orders = [
         customer: "Nguyễn Văn K",
         email: "vank@example.com",
         total: 10499000,
-        status: "Đã xác nhận",
+        status: STATUS.DaXacNhan,
         date: "2025-10-26",
         items: [
             { name: "MacBook Air M2 Charger", quantity: 1, price: 1490000 },
@@ -131,7 +132,7 @@ const orders = [
         customer: "Trần Minh L",
         email: "minhl@example.com",
         total: 799000,
-        status: "Chờ xác nhận",
+        status: STATUS.ChoXacNhan,
         date: "2025-10-26",
         items: [
             { name: "AirTag", quantity: 4, price: 199750 },
@@ -142,7 +143,7 @@ const orders = [
         customer: "Lê Thị M",
         email: "thim@example.com",
         total: 25990000,
-        status: "Đang giao",
+        status: STATUS.ChoXacNhan,
         date: "2025-10-27",
         items: [
             { name: "MacBook Air M3 2024", quantity: 1, price: 25990000 },
@@ -175,7 +176,7 @@ const orders = [
         customer: "Ngô Thị P",
         email: "thip@example.com",
         total: 1999000,
-        status: "Chờ xác nhận",
+        status: STATUS.ChoXacNhan,
         date: "2025-10-28",
         items: [
             { name: "iPhone Leather Wallet with MagSafe", quantity: 1, price: 1999000 },
@@ -186,7 +187,7 @@ const orders = [
         customer: "Đặng Văn Q",
         email: "vanq@example.com",
         total: 55980000,
-        status: "Đã xác nhận",
+        status: STATUS.DaXacNhan,
         date: "2025-10-29",
         items: [
             { name: "Mac Studio M2 Max", quantity: 1, price: 55980000 },
@@ -197,7 +198,7 @@ const orders = [
         customer: "Bùi Thị R",
         email: "thir@example.com",
         total: 998000,
-        status: "Đang giao",
+        status: STATUS.ChoXacNhan,
         date: "2025-10-29",
         items: [
             { name: "USB-C to Lightning Cable (2m)", quantity: 2, price: 499000 },
@@ -230,7 +231,7 @@ const orders = [
         customer: "Nguyễn Văn U",
         email: "vanu@example.com",
         total: 19990000,
-        status: "Chờ xác nhận",
+        status: STATUS.ChoXacNhan,
         date: "2025-10-31",
         items: [
             { name: "Studio Display", quantity: 1, price: 49980000 },
@@ -241,7 +242,7 @@ const orders = [
         customer: "Trần Hữu V",
         email: "huuv@example.com",
         total: 2999000,
-        status: "Đã xác nhận",
+        status: STATUS.DaXacNhan,
         date: "2025-10-31",
         items: [
             { name: "Apple TV 4K", quantity: 1, price: 2999000 },
@@ -252,7 +253,7 @@ const orders = [
         customer: "Lê Minh X",
         email: "minhx@example.com",
         total: 1499000,
-        status: "Đang giao",
+        status: STATUS.ChoXacNhan,
         date: "2025-11-01",
         items: [
             { name: "Magic Mouse", quantity: 1, price: 1499000 },
@@ -285,7 +286,7 @@ const orders = [
         customer: "Ngô Minh A2",
         email: "minha2@example.com",
         total: 39990000,
-        status: "Chờ xác nhận",
+        status: STATUS.ChoXacNhan,
         date: "2025-11-02",
         items: [
             { name: "iPhone 15 Pro Max", quantity: 1, price: 32990000 },
@@ -297,7 +298,7 @@ const orders = [
         customer: "Đặng Hùng B2",
         email: "hungb2@example.com",
         total: 1088000,
-        status: "Đã xác nhận",
+        status: STATUS.DaXacNhan,
         date: "2025-11-03",
         items: [
             { name: "Apple Polishing Cloth", quantity: 5, price: 217600 },
@@ -308,7 +309,7 @@ const orders = [
         customer: "Bùi Thị C2",
         email: "thic2@example.com",
         total: 21489000,
-        status: "Đang giao",
+        status: STATUS.ChoXacNhan,
         date: "2025-11-03",
         items: [
             { name: "Apple Watch Ultra 2", quantity: 1, price: 21489000 },
@@ -341,7 +342,7 @@ const orders = [
         customer: "Nguyễn Thị F2",
         email: "thif2@example.com",
         total: 3499000,
-        status: "Chờ xác nhận",
+        status: STATUS.ChoXacNhan,
         date: "2025-11-05",
         items: [
             { name: "Apple Pencil (2nd Gen)", quantity: 1, price: 3499000 },
@@ -352,7 +353,7 @@ const orders = [
         customer: "Trần Văn G2",
         email: "vang2@example.com",
         total: 998000,
-        status: "Đã xác nhận",
+        status: STATUS.DaXacNhan,
         date: "2025-11-05",
         items: [
             { name: "USB-C to Lightning Cable (2m)", quantity: 2, price: 499000 },
@@ -363,7 +364,7 @@ const orders = [
         customer: "Lê Văn H2",
         email: "vanh2@example.com",
         total: 48990000,
-        status: "Đang giao",
+        status: STATUS.ChoXacNhan,
         date: "2025-11-06",
         items: [
             { name: "MacBook Pro M3 2024", quantity: 1, price: 48990000 },
