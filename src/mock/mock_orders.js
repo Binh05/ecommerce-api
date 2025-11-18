@@ -64,7 +64,7 @@ const orders = [
         customer: "Ngô Văn F",
         email: "vanf@example.com",
         total: 5899000,
-        status: "Đã giao",
+        status: STATUS.ChoXacNhan,
         date: "2025-10-23",
         items: [
             { name: "AirPods Pro (2nd Gen)", quantity: 1, price: 5899000 },
@@ -75,7 +75,7 @@ const orders = [
         customer: "Đặng Thị G",
         email: "thig@example.com",
         total: 1298000,
-        status: "Đã hủy",
+        status: STATUS.ChoXacNhan,
         date: "2025-10-24",
         items: [
             { name: "Lightning to USB Cable (1m)", quantity: 4, price: 324500 },
@@ -109,7 +109,7 @@ const orders = [
         customer: "Phan Đình J",
         email: "dinhj@example.com",
         total: 2999000,
-        status: "Đã giao",
+        status: STATUS.ChoXacNhan,
         date: "2025-10-25",
         items: [
             { name: "Magic Keyboard for iPad Pro", quantity: 1, price: 8999000 },
@@ -154,7 +154,7 @@ const orders = [
         customer: "Phạm Hùng N",
         email: "hungn@example.com",
         total: 3999000,
-        status: "Đã giao",
+        status: STATUS.ChoXacNhan,
         date: "2025-10-27",
         items: [
             { name: "HomePod Mini", quantity: 2, price: 1999500 },
@@ -165,7 +165,7 @@ const orders = [
         customer: "Hoàng Anh O",
         email: "anho@example.com",
         total: 14999000,
-        status: "Đã hủy",
+        status: STATUS.ChoXacNhan,
         date: "2025-10-28",
         items: [
             { name: "iPad Pro 11-inch (2022)", quantity: 1, price: 14999000 },
@@ -209,7 +209,7 @@ const orders = [
         customer: "Vũ Minh S",
         email: "minhs@example.com",
         total: 799000,
-        status: "Đã giao",
+        status: STATUS.ChoXacNhan,
         date: "2025-10-30",
         items: [
             { name: "iPhone SE (3rd Gen) Clear Case", quantity: 2, price: 399500 },
@@ -220,7 +220,7 @@ const orders = [
         customer: "Phan Thị T",
         email: "thit@example.com",
         total: 12999000,
-        status: "Đã hủy",
+        status: STATUS.ChoXacNhan,
         date: "2025-10-30",
         items: [
             { name: "iPad (10th Gen)", quantity: 1, price: 12999000 },
@@ -264,7 +264,7 @@ const orders = [
         customer: "Phạm Thị Y",
         email: "thiy@example.com",
         total: 67980000,
-        status: "Đã giao",
+        status: STATUS.ChoXacNhan,
         date: "2025-11-01",
         items: [
             { name: "Mac Pro M2 Ultra", quantity: 1, price: 67980000 },
@@ -275,7 +275,7 @@ const orders = [
         customer: "Hoàng Văn Z",
         email: "vanz@example.com",
         total: 5899000,
-        status: "Đã hủy",
+        status: STATUS.ChoXacNhan,
         date: "2025-11-02",
         items: [
             { name: "AirPods Pro (2nd Gen)", quantity: 1, price: 5899000 },
@@ -320,7 +320,7 @@ const orders = [
         customer: "Vũ Văn D2",
         email: "vand2@example.com",
         total: 799000,
-        status: "Đã giao",
+        status: STATUS.ChoXacNhan,
         date: "2025-11-04",
         items: [
             { name: "iPhone SE (3rd Gen) Clear Case", quantity: 2, price: 399500 },
@@ -331,7 +331,7 @@ const orders = [
         customer: "Phan Minh E2",
         email: "minhe2@example.com",
         total: 28990000,
-        status: "Đã hủy",
+        status: STATUS.ChoXacNhan,
         date: "2025-11-04",
         items: [
             { name: "MacBook Air 15-inch M2", quantity: 1, price: 28990000 },
@@ -375,7 +375,7 @@ const orders = [
         customer: "Phạm Minh I2",
         email: "mini2@example.com",
         total: 699700,
-        status: "Đã giao",
+        status: STATUS.ChoXacNhan,
         date: "2025-11-06",
         items: [
             { name: "Apple iPhone Charger", quantity: 2, price: 199900 },
