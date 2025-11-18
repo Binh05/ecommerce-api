@@ -1,0 +1,205 @@
+//json ví dụ nha mấy ô
+const products = [
+    {
+        id: 104,
+        title: "Apple iPhone Charger",
+        description:
+            "The Apple iPhone Charger is a high-quality charger designed for fast and efficient charging of your iPhone. Ensure your device stays powered up and ready to go.",
+        brand: "Apple",
+        category: "mobile-accessories",
+        price: 19.99,
+        discountPercentage: 18.52,
+        rating: 4.15,
+        stock: 31,
+        availabilityStatus: "In Stock",
+        sku: "MOB-APP-APP-104",
+        minimumOrderQuantity: 14,
+        returnPolicy: "90 days return policy",
+        warrantyInformation: "1 year warranty",
+        shippingInformation: "Ships in 2 weeks",
+        tags: ["electronics", "chargers"],
+        weight: 1,
+        dimensions: { width: 13.63, height: 26.25, depth: 5.95 },
+        thumbnail:
+            "https://cdn.dummyjson.com/product-images/mobile-accessories/apple-iphone-charger/thumbnail.webp",
+        images: [
+            "https://cdn.dummyjson.com/product-images/mobile-accessories/apple-iphone-charger/1.webp",
+            "https://cdn.dummyjson.com/product-images/mobile-accessories/apple-iphone-charger/2.webp",
+        ],
+        meta: {
+            createdAt: "2025-04-30T09:41:02.053Z",
+            updatedAt: "2025-04-30T09:41:02.053Z",
+            barcode: "0879776541417",
+            qrCode: "https://cdn.dummyjson.com/public/qr-code.png",
+        },
+        reviews: [
+            {
+                rating: 5,
+                comment: "Excellent charger, works perfectly!",
+                reviewerName: "John Doe",
+            },
+            {
+                rating: 4,
+                comment: "Charges fast, but cable is a bit short.",
+                reviewerName: "Alice Nguyen",
+            },
+            {
+                rating: 4.5,
+                comment: "Good value for money.",
+                reviewerName: "Michael Tran",
+            },
+        ],
+    },
+    {
+        id: 105,
+        title: "Apple MagSafe Battery Pack",
+        description:
+            "The Apple MagSafe Battery Pack is a portable and convenient way to add extra battery life to your MagSafe-compatible iPhone. Attach it magnetically for a secure connection.",
+        brand: "Apple",
+        category: "mobile-accessories",
+        price: 99.99,
+        discountPercentage: 17.17,
+        rating: 3.62,
+        stock: 1,
+        availabilityStatus: "Low Stock",
+        sku: "MOB-APP-APP-105",
+        minimumOrderQuantity: 4,
+        returnPolicy: "No return policy",
+        warrantyInformation: "2 year warranty",
+        shippingInformation: "Ships overnight",
+        tags: ["electronics", "power banks"],
+        weight: 6,
+        dimensions: { width: 15.4, height: 11.89, depth: 19.67 },
+        thumbnail:
+            "https://cdn.dummyjson.com/product-images/mobile-accessories/apple-magsafe-battery-pack/thumbnail.webp",
+        images: [
+            "https://cdn.dummyjson.com/product-images/mobile-accessories/apple-magsafe-battery-pack/1.webp",
+            "https://cdn.dummyjson.com/product-images/mobile-accessories/apple-magsafe-battery-pack/2.webp",
+        ],
+        meta: {
+            createdAt: "2025-04-30T09:41:02.053Z",
+            updatedAt: "2025-04-30T09:41:02.053Z",
+            barcode: "5157424897794",
+            qrCode: "https://cdn.dummyjson.com/public/qr-code.png",
+        },
+        reviews: [
+            {
+                rating: 3,
+                comment: "Battery life could be better.",
+                reviewerName: "Minh Le",
+            },
+            {
+                rating: 4,
+                comment: "Handy for travel.",
+                reviewerName: "Anna Pham",
+            },
+            {
+                rating: 3.5,
+                comment: "Good but a bit expensive.",
+                reviewerName: "David Nguyen",
+            },
+        ],
+    },
+    {
+        id: 107,
+        title: "Beats Flex Wireless Earphones",
+        description:
+            "The Beats Flex Wireless Earphones offer a comfortable and versatile audio experience. With magnetic earbuds and up to 12 hours of battery life, they are ideal for everyday use.",
+        brand: "Beats",
+        category: "mobile-accessories",
+        price: 49.99,
+        discountPercentage: 5.73,
+        rating: 4.24,
+        stock: 50,
+        availabilityStatus: "In Stock",
+        sku: "MOB-BEA-BEA-107",
+        minimumOrderQuantity: 17,
+        returnPolicy: "7 days return policy",
+        warrantyInformation: "1 year warranty",
+        shippingInformation: "Ships in 1-2 business days",
+        tags: ["electronics", "wireless earphones"],
+        weight: 8,
+        dimensions: { width: 17.86, height: 25.74, depth: 23.09 },
+        thumbnail:
+            "https://cdn.dummyjson.com/product-images/mobile-accessories/beats-flex-wireless-earphones/thumbnail.webp",
+        images: [
+            "https://cdn.dummyjson.com/product-images/mobile-accessories/beats-flex-wireless-earphones/1.webp",
+        ],
+        meta: {
+            createdAt: "2025-04-30T09:41:02.053Z",
+            updatedAt: "2025-04-30T09:41:02.053Z",
+            barcode: "1741271692174",
+            qrCode: "https://cdn.dummyjson.com/public/qr-code.png",
+        },
+        reviews: [
+            {
+                rating: 5,
+                comment: "Excellent sound quality!",
+                reviewerName: "Linh Pham",
+            },
+            {
+                rating: 4,
+                comment: "Very comfortable and stylish.",
+                reviewerName: "Quang Tran",
+            },
+            {
+                rating: 3.5,
+                comment: "Good but battery drains fast.",
+                reviewerName: "Nam Hoang",
+            },
+        ],
+    },
+    {
+        id: 108,
+        title: "iPhone 12 Silicone Case with MagSafe Plum",
+        description:
+            "The iPhone 12 Silicone Case with MagSafe in Plum is a stylish and protective case designed for the iPhone 12. It features MagSafe technology for easy attachment of accessories.",
+        brand: "Apple",
+        category: "mobile-accessories",
+        price: 29.99,
+        discountPercentage: 13.85,
+        rating: 3.62,
+        stock: 69,
+        availabilityStatus: "In Stock",
+        sku: "MOB-APP-IPH-108",
+        minimumOrderQuantity: 4,
+        returnPolicy: "90 days return policy",
+        warrantyInformation: "3 months warranty",
+        shippingInformation: "Ships in 3-5 business days",
+        tags: ["electronics", "phone accessories"],
+        weight: 7,
+        dimensions: { width: 12.49, height: 11.29, depth: 23.52 },
+        thumbnail:
+            "https://cdn.dummyjson.com/product-images/mobile-accessories/iphone-12-silicone-case-with-magsafe-plum/thumbnail.webp",
+        images: [
+            "https://cdn.dummyjson.com/product-images/mobile-accessories/iphone-12-silicone-case-with-magsafe-plum/1.webp",
+            "https://cdn.dummyjson.com/product-images/mobile-accessories/iphone-12-silicone-case-with-magsafe-plum/2.webp",
+            "https://cdn.dummyjson.com/product-images/mobile-accessories/iphone-12-silicone-case-with-magsafe-plum/3.webp",
+            "https://cdn.dummyjson.com/product-images/mobile-accessories/iphone-12-silicone-case-with-magsafe-plum/4.webp",
+        ],
+        meta: {
+            createdAt: "2025-04-30T09:41:02.053Z",
+            updatedAt: "2025-04-30T09:41:02.053Z",
+            barcode: "8156838251449",
+            qrCode: "https://cdn.dummyjson.com/public/qr-code.png",
+        },
+        reviews: [
+            {
+                rating: 5,
+                comment: "Fits perfectly and feels premium.",
+                reviewerName: "Trang Vo",
+            },
+            {
+                rating: 4,
+                comment: "Color is beautiful and quality is nice.",
+                reviewerName: "Bao Nguyen",
+            },
+            {
+                rating: 3.5,
+                comment: "A bit pricey for a case.",
+                reviewerName: "Hai Dang",
+            },
+        ],
+    },
+];
+export default products;

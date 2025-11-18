@@ -1,35 +1,45 @@
 import User from "../model/User.js";
+import Product from "../model/Product.js";
+import Order from "../model/Order.js";
+// mock data
+import users from "../mock/mock_users.js";
+import products from "../mock/mock_products.js";
+import orders from "../mock/mock_orders.js";
+
 import ROLE from "./role.js";
 import UserService from "../service/UserService.js";
 
-export const init = async() => {
+export const init = async () => {
     try {
-        const admin = await User.findOne({role: ROLE.ADMIN})
-        if (!admin) {
-            const newAdmin = await User.create({email: "admin@exclusive", username: "Admin", password: "binhdeptrai", role: ROLE.ADMIN});
-            if (newAdmin)
-            {
-                console.log("New admin has been created with default password, please change password as soon as possible!");
-            }
-            else{
-                console.error("Can not create new admin");
-            }
+        // --- Init Users ---
+        const userCount = await User.countDocuments();
+        if (userCount === 0) {
+            await User.insertMany(users);
+            console.log(`Inserted ${users.length} users.`);
+        } else {
+            console.log("Users already initialized, skipping.");
         }
 
-        const user = await User.findOne({role: ROLE.USER})
-        if (!user) {
-            const newAdmin = await User.create({email: "songoku@example.com", username: "Songoku", password: "12345678", role: ROLE.USER});
-            if (newAdmin)
-            {
-                console.log("New user has been created with default password, please change password as soon as possible!");
-            }
-            else{
-                console.error("Can not create new user");
-            }
+        // --- Init Products ---
+        const productCount = await Product.countDocuments();
+        if (productCount === 0) {
+            await Product.insertMany(products);
+            console.log(`Inserted ${products.length} products.`);
+        } else {
+            console.log("Products already initialized, skipping.");
         }
-    }
-    catch(err) {
-        console.log(err);
+
+        // --- Init Orders ---
+        const orderCount = await Order.countDocuments();
+        if (orderCount === 0) {
+            await Order.insertMany(orders);
+            console.log(`Inserted ${orders.length} orders.`);
+        } else {
+            console.log("Orders already initialized, skipping.");
+        }
+        console.log("Init Done");
+    } catch (err) {
+        console.error("Init data error:", err);
         process.exit(1);
     }
-}
+};
