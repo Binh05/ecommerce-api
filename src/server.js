@@ -15,7 +15,10 @@ const PORT = process.env.PORT || 3000;
 const DB_URI = process.env.DB_URI;
 
 app.use(morgan("combined"));
-app.use(cors());
+app.use(cors({
+    origin: "http://localhost:5173", // URL frontend của bạn
+    credentials: true // Cho phép gửi cookie/token
+}));
 app.use(express.json());
 app.use(cookieParser());
 
