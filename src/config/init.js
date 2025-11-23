@@ -14,8 +14,30 @@ export const init = async () => {
         // --- Init Users ---
         const userCount = await User.countDocuments();
         if (userCount === 0) {
-            await User.insertMany(users);
-            console.log(`Inserted ${users.length} users.`);
+            // Create users using the same flow as registration so that
+            // passwords, refresh tokens and any related logic are applied.
+            for (const u of users) {
+                try {
+                    // Use the service register to create user and generate tokens
+                    await UserService.register(u.username, u.email, String(u.password));
+
+                    // Update additional fields not handled by register
+                    const extra = {};
+                    if (u.dob) extra.dob = u.dob;
+                    if (u.address) extra.address = u.address;
+                    if (u.role) extra.role = u.role;
+                    if (u.avatar) extra.avatar = u.avatar;
+                    if (typeof u.isVerified !== 'undefined') extra.isVerified = u.isVerified;
+
+                    if (Object.keys(extra).length > 0) {
+                        await User.findOneAndUpdate({ email: u.email }, extra, { new: true });
+                    }
+                } catch (err) {
+                    // Log and continue with remaining users
+                    console.error(`Failed to create user ${u.email}:`, err && err.message ? err.message : err);
+                }
+            }
+            console.log(`Inserted ${users.length} users via register flow.`);
         } else {
             console.log("Users already initialized, skipping.");
         }
