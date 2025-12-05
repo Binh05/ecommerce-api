@@ -1,8 +1,59 @@
 import UserService from "../service/UserService.js";
 import ApiResponse from "../utils/ApiResponse.js";
+import User from "../model/User.js";
+
 class UserController {
-    index(req, res) {
-        res.send("User route")
+    // GET /api/users - Lấy tất cả users
+    async index(req, res, next) {
+        try {
+            const users = await User.find().select("-password -refreshToken");
+            return ApiResponse.success(res, users);
+        } catch (err) {
+            next(err);
+        }
+    }
+
+    // GET /api/users/:id - Lấy user theo ID
+    async show(req, res, next) {
+        try {
+            const { id } = req.params;
+            const user = await User.findById(id).select("-password -refreshToken");
+            if (!user) return ApiResponse.badRequest(res, "User not found");
+            return ApiResponse.success(res, user);
+        } catch (err) {
+            next(err);
+        }
+    }
+
+    // PUT /api/users/:id - Cập nhật user
+    async update(req, res, next) {
+        try {
+            const { id } = req.params;
+            const { password, ...updateData } = req.body; // Không cho phép update password qua route này
+            
+            const updated = await User.findByIdAndUpdate(
+                id,
+                updateData,
+                { new: true, runValidators: true }
+            ).select("-password -refreshToken");
+            
+            if (!updated) return ApiResponse.badRequest(res, "User not found");
+            return ApiResponse.success(res, updated);
+        } catch (err) {
+            next(err);
+        }
+    }
+
+    // DELETE /api/users/:id - Xóa user
+    async destroy(req, res, next) {
+        try {
+            const { id } = req.params;
+            const deleted = await User.findByIdAndDelete(id);
+            if (!deleted) return ApiResponse.badRequest(res, "User not found");
+            return ApiResponse.success(res, "User deleted successfully");
+        } catch (err) {
+            next(err);
+        }
     }
 
     async register(req, res, next) {

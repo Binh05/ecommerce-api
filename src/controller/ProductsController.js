@@ -27,7 +27,19 @@ class ProductController {
     // POST /api/products
     async store(req, res, next) {
         try {
-        const newProduct = new Product(req.body);
+        // Tìm ID lớn nhất hiện có và tạo ID mới
+        const maxProduct = await Product.findOne().sort({ id: -1 }).limit(1);
+        const newId = maxProduct ? maxProduct.id + 1 : 1;
+        
+        const newProduct = new Product({
+            ...req.body,
+            id: newId,
+            meta: {
+                createdAt: new Date(),
+                updatedAt: new Date(),
+                ...req.body.meta
+            }
+        });
         const saved = await newProduct.save();
         return ApiResponse.success(res, saved, 201);
         } catch (err) {
@@ -39,10 +51,17 @@ class ProductController {
     async update(req, res, next) {
         try {
         const { id } = req.params;
+        
+        // Cập nhật metadata thời gian
+        const updateData = {
+            ...req.body,
+            'meta.updatedAt': new Date()
+        };
+        
         const updated = await Product.findOneAndUpdate(
             { id: Number(id) },
-            req.body,
-            { new: true }
+            updateData,
+            { new: true, runValidators: true }
         );
         if (!updated) return ApiResponse.badRequest(res, "Product not found");
         return ApiResponse.success(res, updated);
