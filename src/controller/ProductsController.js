@@ -27,6 +27,11 @@ class ProductController {
     // POST /api/products
     async store(req, res, next) {
         try {
+        // Validate required fields
+        if (!req.body.title || !req.body.price) {
+            return ApiResponse.badRequest(res, "Title and price are required");
+        }
+
         // Tìm ID lớn nhất hiện có và tạo ID mới
         const maxProduct = await Product.findOne().sort({ id: -1 }).limit(1);
         const newId = maxProduct ? maxProduct.id + 1 : 1;
@@ -43,6 +48,7 @@ class ProductController {
         const saved = await newProduct.save();
         return ApiResponse.success(res, saved, 201);
         } catch (err) {
+        console.error("Error creating product:", err);
         next(err);
         }
     }
@@ -51,6 +57,11 @@ class ProductController {
     async update(req, res, next) {
         try {
         const { id } = req.params;
+        
+        // Validate required fields
+        if (!req.body.title || !req.body.price) {
+            return ApiResponse.badRequest(res, "Title and price are required");
+        }
         
         // Cập nhật metadata thời gian
         const updateData = {
@@ -66,6 +77,7 @@ class ProductController {
         if (!updated) return ApiResponse.badRequest(res, "Product not found");
         return ApiResponse.success(res, updated);
         } catch (err) {
+        console.error("Error updating product:", err);
         next(err);
         }
     }
