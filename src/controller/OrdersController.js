@@ -1,6 +1,7 @@
 import Order from "../model/Order.js";
 import Product from "../model/Product.js";
 import User from "../model/User.js";
+import Voucher from "../model/Voucher.js";
 import ApiResponse from "../utils/ApiResponse.js";
 
 class OrdersController {
@@ -34,7 +35,7 @@ class OrdersController {
 	// POST /api/orders
 	async store(req, res, next) {
 		try {
-			const { userId, userEmail, items, shippingAddress, paymentMethod, note } = req.body;
+			const { userId, userEmail, items, shippingAddress, paymentMethod, note, voucherCodes } = req.body;
 
 			// Validate request
 			if (!items || items.length === 0) {
@@ -44,9 +45,9 @@ class OrdersController {
 			// Find user by userId or userEmail
 			let user;
 			if (userId) {
-				user = await User.findById(userId);
+				user = await User.findById(userId).populate('vouchers.voucher');
 			} else if (userEmail) {
-				user = await User.findOne({ email: userEmail });
+				user = await User.findOne({ email: userEmail }).populate('vouchers.voucher');
 			} else {
 				return ApiResponse.badRequest(res, "userId or userEmail is required");
 			}
@@ -56,7 +57,7 @@ class OrdersController {
 			}
 
 			// Validate products and calculate total
-			let total = 0;
+			let originalTotal = 0;
 			const orderItems = [];
 			const productDetails = []; // For detailed validation messages
 
@@ -100,8 +101,63 @@ class OrdersController {
 					quantity: item.quantity
 				});
 
-				total += product.price * item.quantity;
+				originalTotal += product.price * item.quantity;
 			}
+
+			// Process vouchers
+			let totalDiscount = 0;
+			const appliedVouchers = [];
+
+			if (voucherCodes && voucherCodes.length > 0) {
+				for (const code of voucherCodes) {
+					// Tìm voucher trong user's vouchers
+					const userVoucher = user.vouchers.find(
+						v => v.voucher && v.voucher.code === code.toUpperCase() && !v.isUsed
+					);
+
+					if (!userVoucher) {
+						return ApiResponse.badRequest(res, `You don't have voucher: ${code}`);
+					}
+
+					const voucher = userVoucher.voucher;
+
+					// Kiểm tra voucher còn hiệu lực
+					if (!voucher.isValid(userVoucher.claimedAt)) {
+						return ApiResponse.badRequest(res, `Voucher ${code} has expired`);
+					}
+
+					// Kiểm tra minimum purchase
+					if (originalTotal < voucher.minimumPurchase) {
+						return ApiResponse.badRequest(
+							res, 
+							`Voucher ${code} requires minimum purchase of $${voucher.minimumPurchase}`
+						);
+					}
+
+					// Tính discount
+					const discount = voucher.calculateDiscount(originalTotal);
+					totalDiscount += discount;
+
+					appliedVouchers.push({
+						voucher: voucher._id,
+						code: voucher.code,
+						discountAmount: discount
+					});
+
+					// Đánh dấu voucher đã dùng trong user
+					userVoucher.isUsed = true;
+
+					// Tăng usedCount của voucher
+					voucher.usedCount += 1;
+					await voucher.save();
+				}
+
+				// Lưu user sau khi đánh dấu vouchers
+				await user.save();
+			}
+
+			// Calculate final total
+			const finalTotal = Math.max(0, originalTotal - totalDiscount);
 
 			// Generate sequential order ID
 			const maxOrder = await Order.findOne().sort({ id: -1 }).limit(1);
@@ -112,7 +168,10 @@ class OrdersController {
 				id: newId,
 				user: user._id,
 				items: orderItems,
-				total,
+				originalTotal,
+				discount: totalDiscount,
+				total: finalTotal,
+				appliedVouchers,
 				shippingAddress: shippingAddress || user.address || "N/A",
 				paymentMethod: paymentMethod || "COD",
 				note: note || ""
@@ -131,11 +190,17 @@ class OrdersController {
 			// Populate before returning
 			const populatedOrder = await Order.findById(saved._id)
 				.populate('user', 'username email avatar address')
-				.populate('items.product', 'title thumbnail price stock category');
+				.populate('items.product', 'title thumbnail price stock category')
+				.populate('appliedVouchers.voucher', 'code description');
 
 			console.log(`✅ Order ${newId} created successfully for user ${user.email}`);
 			console.log(`📦 Products: ${productDetails.map(p => `${p.title} (x${p.quantity})`).join(', ')}`);
-			console.log(`💰 Total: $${total}`);
+			console.log(`💰 Original Total: $${originalTotal}`);
+			if (totalDiscount > 0) {
+				console.log(`🎟️ Vouchers Applied: ${appliedVouchers.map(v => v.code).join(', ')}`);
+				console.log(`💸 Total Discount: $${totalDiscount}`);
+			}
+			console.log(`💳 Final Total: $${finalTotal}`);
 
 			return ApiResponse.success(res, populatedOrder, 201);
 		} catch (err) {

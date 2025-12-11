@@ -9,6 +9,7 @@ http://localhost:5000/api
 
 - 📦 [**Products API**](./PRODUCTS.md) - Manage products (CRUD operations)
 - 🛒 [**Orders API**](./ORDERS.md) - Create and manage orders
+- 🎟️ [**Vouchers API**](./VOUCHERS.md) - Voucher system (claim, apply discounts)
 - 👥 [**Users API**](./USERS.md) - User management (admin only)
 - 🔐 [**Authentication API**](./AUTH.md) - Login, register, token refresh
 
