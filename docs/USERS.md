@@ -1,18 +1,18 @@
-# Users API
+# API Người Dùng
 
-## Base URL
+## URL Cơ Bản
 ```
 http://localhost:5000/api/users
 ```
 
-**⚠️ Admin Only:** Most endpoints require admin authentication.
+**⚠️ Chỉ Dành Cho Admin:** Hầu hết các endpoint yêu cầu xác thực admin.
 
 ---
 
-## Endpoints
+## Các Endpoint
 
-### 1. Get All Users
-Get a list of all users (admin only).
+### 1. Lấy Tất Cả Người Dùng
+Lấy danh sách tất cả người dùng (chỉ admin).
 
 ```http
 GET /api/users
@@ -50,30 +50,30 @@ Authorization: Bearer <admin_access_token>
 }
 ```
 
-**Notes:**
-- Password and refreshToken fields are excluded from response
-- Requires admin role
-- Returns all users in the system
+**Ghi Chú:**
+- Các trường password và refreshToken được loại trừ khỏi response
+- Yêu cầu quyền admin
+- Trả về tất cả người dùng trong hệ thống
 
 ---
 
-### 2. Get User by ID
-Get details of a specific user.
+### 2. Lấy Người Dùng Theo ID
+Lấy thông tin chi tiết của một người dùng cụ thể.
 
 ```http
 GET /api/users/:id
 Authorization: Bearer <admin_access_token>
 ```
 
-**Parameters:**
-- `id` (path, required) - User's MongoDB ObjectId
+**Tham Số:**
+- `id` (đường dẫn, bắt buộc) - MongoDB ObjectId của người dùng
 
-**Example:**
+**Ví Dụ:**
 ```http
 GET /api/users/674a1b2c3d4e5f...
 ```
 
-**Success Response (200):**
+**Response Thành Công (200):**
 ```json
 {
   "code": 200,
@@ -92,7 +92,7 @@ GET /api/users/674a1b2c3d4e5f...
 }
 ```
 
-**Error Response (400):**
+**Response Lỗi (400):**
 ```json
 {
   "code": 400,
@@ -100,14 +100,14 @@ GET /api/users/674a1b2c3d4e5f...
 }
 ```
 
-**Notes:**
-- Password and refreshToken are excluded
-- Requires admin role
+**Ghi Chú:**
+- Password và refreshToken được loại trừ
+- Yêu cầu quyền admin
 
 ---
 
-### 3. Update User
-Update user information (admin only).
+### 3. Cập Nhật Người Dùng
+Cập nhật thông tin người dùng (chỉ admin).
 
 ```http
 PUT /api/users/:id
@@ -115,8 +115,8 @@ Authorization: Bearer <admin_access_token>
 Content-Type: application/json
 ```
 
-**Parameters:**
-- `id` (path, required) - User's MongoDB ObjectId
+**Tham Số:**
+- `id` (đường dẫn, bắt buộc) - MongoDB ObjectId của người dùng
 
 **Request Body:**
 ```json
@@ -130,20 +130,20 @@ Content-Type: application/json
 }
 ```
 
-**Allowed Fields to Update:**
-- `username` (string)
-- `email` (string) - must be unique
-- `role` (string) - "user" or "admin"
-- `address` (string)
-- `avatar` (string)
-- `dob` (date)
+**Các Trường Được Phép Cập Nhật:**
+- `username` (chuỗi)
+- `email` (chuỗi) - phải là duy nhất
+- `role` (chuỗi) - "user" hoặc "admin"
+- `address` (chuỗi)
+- `avatar` (chuỗi)
+- `dob` (ngày tháng)
 - `isVerified` (boolean)
 
-**Forbidden Fields:**
-- `password` - cannot be updated through this endpoint (use separate password change endpoint)
-- `refreshToken` - managed by authentication system
+**Các Trường Bị Cấm:**
+- `password` - không thể cập nhật qua endpoint này (sử dụng endpoint thay đổi mật khẩu riêng)
+- `refreshToken` - được quản lý bởi hệ thống xác thực
 
-**Success Response (200):**
+**Response Thành Công (200):**
 ```json
 {
   "code": 200,
@@ -160,9 +160,9 @@ Content-Type: application/json
 }
 ```
 
-**Error Responses:**
+**Các Response Lỗi:**
 
-User not found:
+Không tìm thấy người dùng:
 ```json
 {
   "code": 400,
@@ -170,7 +170,7 @@ User not found:
 }
 ```
 
-Email already exists:
+Email đã tồn tại:
 ```json
 {
   "code": 400,
@@ -178,31 +178,31 @@ Email already exists:
 }
 ```
 
-**Notes:**
-- Requires admin role
-- Password is automatically excluded from update
-- Validators are run on update
-- `updatedAt` timestamp is automatically updated
+**Ghi Chú:**
+- Yêu cầu quyền admin
+- Password tự động được loại trừ khỏi cập nhật
+- Các validator được chạy khi cập nhật
+- Timestamp `updatedAt` được tự động cập nhật
 
 ---
 
-### 4. Delete User
-Remove a user from the system (admin only).
+### 4. Xóa Người Dùng
+Xóa một người dùng khỏi hệ thống (chỉ admin).
 
 ```http
 DELETE /api/users/:id
 Authorization: Bearer <admin_access_token>
 ```
 
-**Parameters:**
-- `id` (path, required) - User's MongoDB ObjectId
+**Tham Số:**
+- `id` (đường dẫn, bắt buộc) - MongoDB ObjectId của người dùng
 
-**Example:**
+**Ví Dụ:**
 ```http
 DELETE /api/users/674a1b2c3d4e5f...
 ```
 
-**Success Response (200):**
+**Response Thành Công (200):**
 ```json
 {
   "code": 200,
@@ -210,7 +210,7 @@ DELETE /api/users/674a1b2c3d4e5f...
 }
 ```
 
-**Error Response (400):**
+**Response Lỗi (400):**
 ```json
 {
   "code": 400,
@@ -218,39 +218,39 @@ DELETE /api/users/674a1b2c3d4e5f...
 }
 ```
 
-**Notes:**
-- Requires admin role
-- Deletion is permanent
-- All user's orders will still reference the deleted user (by ObjectId)
+**Ghi Chú:**
+- Yêu cầu quyền admin
+- Việc xóa là vĩnh viễn
+- Tất cả đơn hàng của người dùng vẫn sẽ tham chiếu đến người dùng đã xóa (theo ObjectId)
 
 ---
 
-## User Roles
+## Các Vai Trò Người Dùng
 
-### Available Roles
-- `"user"` - Regular customer (default)
-- `"admin"` - Administrator with elevated permissions
+### Các Vai Trò Có Sẵn
+- `"user"` - Khách hàng thông thường (mặc định)
+- `"admin"` - Quản trị viên với quyền nâng cao
 
-### Role Permissions
+### Quyền Hạn Theo Vai Trò
 
-**User Role:**
-- View products
-- Create orders
-- View own orders
-- Update own profile
+**Vai Trò User:**
+- Xem sản phẩm
+- Tạo đơn hàng
+- Xem đơn hàng của riêng mình
+- Cập nhật hồ sơ của riêng mình
 
-**Admin Role:**
-- All user permissions
-- Manage all users (CRUD)
-- Manage all products (CRUD)
-- Manage all orders (view, update status)
-- View dashboard statistics
+**Vai Trò Admin:**
+- Tất cả quyền của user
+- Quản lý tất cả người dùng (CRUD)
+- Quản lý tất cả sản phẩm (CRUD)
+- Quản lý tất cả đơn hàng (xem, cập nhật trạng thái)
+- Xem thống kê dashboard
 
 ---
 
-## Frontend Integration Examples
+## Ví Dụ Tích Hợp Frontend
 
-### Example 1: Get All Users (Admin Dashboard)
+### Ví Dụ 1: Lấy Tất Cả Người Dùng (Admin Dashboard)
 
 ```javascript
 import api from './api'; // Axios instance with auth interceptor
@@ -296,7 +296,7 @@ const UsersList = () => {
 
 ---
 
-### Example 2: Update User Role
+### Ví Dụ 2: Cập Nhật Vai Trò Người Dùng
 
 ```javascript
 const updateUserRole = async (userId, newRole) => {
@@ -325,7 +325,7 @@ updateUserRole('674a...', 'admin')
 
 ---
 
-### Example 3: User Management Component
+### Ví Dụ 3: Component Quản Lý Người Dùng
 
 ```javascript
 import { useState } from 'react';
@@ -403,7 +403,7 @@ const UserManagement = ({ user }) => {
 
 ---
 
-### Example 4: Filter Users by Role
+### Ví Dụ 4: Lọc Người Dùng Theo Vai Trò
 
 ```javascript
 const filterUsersByRole = (users, role) => {
@@ -421,18 +421,18 @@ console.log(`Users: ${regularUsers.length}`);
 
 ---
 
-## Admin Middleware
+## Middleware Admin
 
-All user management endpoints are protected by the `verifyRoles(ROLE.ADMIN)` middleware.
+Tất cả các endpoint quản lý người dùng được bảo vệ bởi middleware `verifyRoles(ROLE.ADMIN)`.
 
-**How it works:**
-1. Client sends request with access token in Authorization header
-2. Server verifies token and extracts user info
-3. Middleware checks if user has admin role
-4. If not admin, returns 403 Forbidden
-5. If admin, proceeds to controller
+**Cách hoạt động:**
+1. Client gửi request với access token trong header Authorization
+2. Server xác minh token và trích xuất thông tin người dùng
+3. Middleware kiểm tra xem người dùng có vai trò admin không
+4. Nếu không phải admin, trả về 403 Forbidden
+5. Nếu là admin, tiếp tục đến controller
 
-**Example Response for Non-Admin:**
+**Ví Dụ Response Cho Người Dùng Không Phải Admin:**
 ```json
 {
   "code": 403,
@@ -442,44 +442,44 @@ All user management endpoints are protected by the `verifyRoles(ROLE.ADMIN)` mid
 
 ---
 
-## User Model Schema
+## Schema Model Người Dùng
 
 ```javascript
 {
-  email: String (required, unique),
-  username: String (required),
-  password: String (required, hashed),
+  email: String (bắt buộc, duy nhất),
+  username: String (bắt buộc),
+  password: String (bắt buộc, đã mã hóa),
   dob: Date,
   address: String,
-  role: String (enum: ["admin", "user"], default: "user"),
-  avatar: String (default: default_image_url),
+  role: String (enum: ["admin", "user"], mặc định: "user"),
+  avatar: String (mặc định: default_image_url),
   refreshToken: String,
-  isVerified: Boolean (default: true),
-  createdAt: Date (auto),
-  updatedAt: Date (auto)
+  isVerified: Boolean (mặc định: true),
+  createdAt: Date (tự động),
+  updatedAt: Date (tự động)
 }
 ```
 
 ---
 
-## Security Notes
+## Ghi Chú Bảo Mật
 
-1. **Password Protection:**
-   - Passwords are hashed with bcrypt before storage
-   - Passwords are never returned in API responses
-   - Passwords cannot be updated through PUT /users/:id
+1. **Bảo Vệ Mật Khẩu:**
+   - Mật khẩu được mã hóa bằng bcrypt trước khi lưu trữ
+   - Mật khẩu không bao giờ được trả về trong API responses
+   - Mật khẩu không thể được cập nhật qua PUT /users/:id
 
-2. **Admin Access:**
-   - All endpoints require admin authentication
-   - Use JWT tokens with role information
-   - Tokens expire after 15 minutes (access) or 7 days (refresh)
+2. **Truy Cập Admin:**
+   - Tất cả các endpoint yêu cầu xác thực admin
+   - Sử dụng JWT tokens với thông tin vai trò
+   - Tokens hết hạn sau 15 phút (access) hoặc 7 ngày (refresh)
 
-3. **Data Validation:**
-   - Email must be unique
-   - Role must be "user" or "admin"
-   - All updates run validators
+3. **Xác Thực Dữ Liệu:**
+   - Email phải là duy nhất
+   - Role phải là "user" hoặc "admin"
+   - Tất cả cập nhật đều chạy validators
 
-4. **Best Practices:**
-   - Always verify admin role on frontend before showing UI
-   - Handle 403 errors gracefully
-   - Don't expose user management to non-admin users
+4. **Các Phương Pháp Tốt Nhất:**
+   - Luôn xác minh vai trò admin trên frontend trước khi hiển thị UI
+   - Xử lý lỗi 403 một cách mượt mà
+   - Không hiển thị quản lý người dùng cho người dùng không phải admin

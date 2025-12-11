@@ -1,22 +1,22 @@
-# Orders API
+# API Đơn Hàng
 
-## Base URL
+## URL Cơ Bản
 ```
 http://localhost:5000/api/orders
 ```
 
 ---
 
-## Endpoints
+## Các Endpoint
 
-### 1. Get All Orders
-Get a list of all orders with populated user and product details.
+### 1. Lấy Tất Cả Đơn Hàng
+Lấy danh sách tất cả các đơn hàng với thông tin chi tiết người dùng và sản phẩm.
 
 ```http
 GET /api/orders
 ```
 
-**Response:**
+**Phản hồi:**
 ```json
 {
   "code": 200,
@@ -57,29 +57,29 @@ GET /api/orders
 }
 ```
 
-**Notes:**
-- Orders are sorted by date (newest first)
-- User details are populated (username, email, avatar)
-- Product details are populated (title, thumbnail, price, stock, category)
+**Ghi chú:**
+- Đơn hàng được sắp xếp theo ngày (mới nhất trước)
+- Thông tin người dùng được điền đầy đủ (tên người dùng, email, avatar)
+- Thông tin sản phẩm được điền đầy đủ (tiêu đề, hình thu nhỏ, giá, tồn kho, danh mục)
 
 ---
 
-### 2. Get Order by ID
-Get details of a specific order.
+### 2. Lấy Đơn Hàng Theo ID
+Lấy thông tin chi tiết của một đơn hàng cụ thể.
 
 ```http
 GET /api/orders/:id
 ```
 
-**Parameters:**
-- `id` (path, required) - Order ID (string)
+**Tham số:**
+- `id` (đường dẫn, bắt buộc) - ID đơn hàng (chuỗi)
 
-**Example:**
+**Ví dụ:**
 ```http
 GET /api/orders/1001
 ```
 
-**Success Response (200):**
+**Phản hồi thành công (200):**
 ```json
 {
   "code": 200,
@@ -115,25 +115,25 @@ GET /api/orders/1001
 }
 ```
 
-**Error Response (400):**
+**Phản hồi lỗi (400):**
 ```json
 {
   "code": 400,
-  "data": "Order not found"
+  "data": "Không tìm thấy đơn hàng"
 }
 ```
 
 ---
 
-### 3. Create Order
-Create a new order with user and products.
+### 3. Tạo Đơn Hàng
+Tạo một đơn hàng mới với người dùng và sản phẩm.
 
 ```http
 POST /api/orders
 Content-Type: application/json
 ```
 
-**Request Body (Option 1 - Using User ID):**
+**Nội dung yêu cầu (Tùy chọn 1 - Sử dụng ID người dùng):**
 ```json
 {
   "userId": "674a1b2c3d4e5f...",
@@ -153,7 +153,7 @@ Content-Type: application/json
 }
 ```
 
-**Request Body (Option 2 - Using User Email):**
+**Nội dung yêu cầu (Tùy chọn 2 - Sử dụng Email người dùng):**
 ```json
 {
   "userEmail": "john@example.com",
@@ -173,18 +173,18 @@ Content-Type: application/json
 }
 ```
 
-**Required Fields:**
-- `userId` (ObjectId string) OR `userEmail` (string) - User placing the order
-- `items` (array) - Array of order items (minimum 1 item)
-  - `productId` (ObjectId string OR number) - Product ID (supports both MongoDB _id and custom id)
-  - `quantity` (number) - Quantity to order (must be > 0)
+**Trường bắt buộc:**
+- `userId` (chuỗi ObjectId) HOẶC `userEmail` (chuỗi) - Người dùng đặt hàng
+- `items` (mảng) - Mảng các sản phẩm đặt hàng (tối thiểu 1 sản phẩm)
+  - `productId` (chuỗi ObjectId HOẶC số) - ID sản phẩm (hỗ trợ cả MongoDB _id và id tùy chỉnh)
+  - `quantity` (số) - Số lượng đặt hàng (phải > 0)
 
-**Optional Fields:**
-- `shippingAddress` (string) - Shipping address (defaults to user's saved address or "N/A")
-- `paymentMethod` (string) - Payment method (defaults to "COD")
-- `note` (string) - Order notes/special instructions
+**Trường tùy chọn:**
+- `shippingAddress` (chuỗi) - Địa chỉ giao hàng (mặc định là địa chỉ đã lưu của người dùng hoặc "N/A")
+- `paymentMethod` (chuỗi) - Phương thức thanh toán (mặc định là "COD")
+- `note` (chuỗi) - Ghi chú đơn hàng/yêu cầu đặc biệt
 
-**Success Response (201):**
+**Phản hồi thành công (201):**
 ```json
 {
   "code": 201,
@@ -235,108 +235,108 @@ Content-Type: application/json
 }
 ```
 
-**Server Console Output:**
+**Kết quả Console Máy chủ:**
 ```
-✅ Order 1002 created successfully for user john@example.com
-📦 Products: iPhone 15 Pro (x2), AirPods Pro (x1)
-💰 Total: $2247
+✅ Đơn hàng 1002 được tạo thành công cho người dùng john@example.com
+📦 Sản phẩm: iPhone 15 Pro (x2), AirPods Pro (x1)
+💰 Tổng: $2247
 ```
 
-**Error Responses:**
+**Các phản hồi lỗi:**
 
-Missing user identifier:
+Thiếu định danh người dùng:
 ```json
 {
   "code": 400,
-  "data": "userId or userEmail is required"
+  "data": "userId hoặc userEmail là bắt buộc"
 }
 ```
 
-User not found:
+Không tìm thấy người dùng:
 ```json
 {
   "code": 400,
-  "data": "User not found"
+  "data": "Không tìm thấy người dùng"
 }
 ```
 
-No items provided:
+Không có sản phẩm:
 ```json
 {
   "code": 400,
-  "data": "Items are required"
+  "data": "Sản phẩm là bắt buộc"
 }
 ```
 
-Invalid item structure:
+Cấu trúc sản phẩm không hợp lệ:
 ```json
 {
   "code": 400,
-  "data": "Each item must have productId and quantity"
+  "data": "Mỗi sản phẩm phải có productId và quantity"
 }
 ```
 
-Invalid quantity:
+Số lượng không hợp lệ:
 ```json
 {
   "code": 400,
-  "data": "Quantity must be greater than 0"
+  "data": "Số lượng phải lớn hơn 0"
 }
 ```
 
-Product not found:
+Không tìm thấy sản phẩm:
 ```json
 {
   "code": 400,
-  "data": "Product with ID 674c... not found"
+  "data": "Không tìm thấy sản phẩm có ID 674c..."
 }
 ```
 
-Insufficient stock:
+Không đủ hàng:
 ```json
 {
   "code": 400,
-  "data": "Insufficient stock for \"iPhone 15 Pro\". Available: 1, Requested: 2"
+  "data": "Không đủ hàng cho \"iPhone 15 Pro\". Có sẵn: 1, Yêu cầu: 2"
 }
 ```
 
-**Important Notes:**
-- Order ID is auto-generated (sequential: "1", "2", "3", ...)
-- Total price is calculated automatically from current product prices
-- Product stock is automatically decreased when order is created
-- Price is saved at time of purchase (won't change if product price changes later)
-- Default order status is "Chờ xác nhận"
-- Validates that user exists before creating order
-- Validates that all products exist and have sufficient stock
+**Ghi chú quan trọng:**
+- ID đơn hàng được tự động tạo (tuần tự: "1", "2", "3", ...)
+- Tổng giá được tính tự động từ giá sản phẩm hiện tại
+- Tồn kho sản phẩm tự động giảm khi đơn hàng được tạo
+- Giá được lưu tại thời điểm mua (sẽ không thay đổi nếu giá sản phẩm thay đổi sau này)
+- Trạng thái đơn hàng mặc định là "Chờ xác nhận"
+- Xác thực người dùng tồn tại trước khi tạo đơn hàng
+- Xác thực tất cả sản phẩm tồn tại và có đủ hàng
 
 ---
 
-### 4. Update Order Status
-Update the status of an existing order.
+### 4. Cập Nhật Trạng Thái Đơn Hàng
+Cập nhật trạng thái của một đơn hàng hiện có.
 
 ```http
 PUT /api/orders/:id
 Content-Type: application/json
 ```
 
-**Parameters:**
-- `id` (path, required) - Order ID to update
+**Tham số:**
+- `id` (đường dẫn, bắt buộc) - ID đơn hàng cần cập nhật
 
-**Request Body:**
+**Nội dung yêu cầu:**
 ```json
 {
   "status": "Đã xác nhận"
 }
 ```
 
-**Valid Status Values:**
-- `"Chờ xác nhận"` - Pending confirmation (default)
-- `"Đã xác nhận"` - Confirmed
-- `"Đang giao"` - In delivery
-- `"Đã giao"` - Delivered
-- `"Đã hủy"` - Cancelled
+**Các giá trị trạng thái hợp lệ:**
+- `"Chờ xác nhận"` - Chờ xác nhận (mặc định)
+- `"Đã xác nhận"` - Đã xác nhận
+- `"Đang giao"` - Đang giao hàng
+- `"Đã giao"` - Đã giao hàng
+- `"Đã hủy"` - Đã hủy
 
-**Success Response (200):**
+**Phản hồi thành công (200):**
 ```json
 {
   "code": 200,
@@ -365,102 +365,102 @@ Content-Type: application/json
 }
 ```
 
-**Error Responses:**
+**Các phản hồi lỗi:**
 
-Missing status field:
+Thiếu trường trạng thái:
 ```json
 {
   "code": 400,
-  "data": "Status is required"
+  "data": "Trạng thái là bắt buộc"
 }
 ```
 
-Order not found:
+Không tìm thấy đơn hàng:
 ```json
 {
   "code": 400,
-  "data": "Order not found"
+  "data": "Không tìm thấy đơn hàng"
 }
 ```
 
-**Notes:**
-- Only the `status` field can be updated
-- Other order details (items, total, user) cannot be modified
-- Order details are populated in the response
-- Server logs: `Error updating order:` if update fails
+**Ghi chú:**
+- Chỉ có trường `status` có thể được cập nhật
+- Các chi tiết đơn hàng khác (sản phẩm, tổng, người dùng) không thể sửa đổi
+- Chi tiết đơn hàng được điền đầy đủ trong phản hồi
+- Nhật ký máy chủ: `Lỗi khi cập nhật đơn hàng:` nếu cập nhật thất bại
 
 ---
 
-### 5. Delete Order
-Remove an order from the database.
+### 5. Xóa Đơn Hàng
+Xóa một đơn hàng khỏi cơ sở dữ liệu.
 
 ```http
 DELETE /api/orders/:id
 ```
 
-**Parameters:**
-- `id` (path, required) - Order ID to delete
+**Tham số:**
+- `id` (đường dẫn, bắt buộc) - ID đơn hàng cần xóa
 
-**Example:**
+**Ví dụ:**
 ```http
 DELETE /api/orders/1001
 ```
 
-**Success Response (200):**
+**Phản hồi thành công (200):**
 ```json
 {
   "code": 200,
-  "data": "Order deleted successfully"
+  "data": "Xóa đơn hàng thành công"
 }
 ```
 
-**Error Response (400):**
+**Phản hồi lỗi (400):**
 ```json
 {
   "code": 400,
-  "data": "Order not found"
+  "data": "Không tìm thấy đơn hàng"
 }
 ```
 
-**Important Notes:**
-- Product stock is restored if order was not cancelled
-- If order status is "Đã hủy", stock is NOT restored
-- Deletion is permanent
-- Server logs: `Error deleting order:` if deletion fails
+**Ghi chú quan trọng:**
+- Tồn kho sản phẩm được khôi phục nếu đơn hàng chưa bị hủy
+- Nếu trạng thái đơn hàng là "Đã hủy", tồn kho KHÔNG được khôi phục
+- Việc xóa là vĩnh viễn
+- Nhật ký máy chủ: `Lỗi khi xóa đơn hàng:` nếu xóa thất bại
 
-**Stock Restoration Logic:**
+**Logic Khôi Phục Tồn Kho:**
 ```javascript
-// Example: Order had 2x iPhone (stock before order: 50)
-// After order created: stock = 48
-// After order deleted (status != "Đã hủy"): stock = 50 (restored)
-// After order deleted (status = "Đã hủy"): stock = 48 (not restored)
+// Ví dụ: Đơn hàng có 2x iPhone (tồn kho trước đơn hàng: 50)
+// Sau khi tạo đơn hàng: tồn kho = 48
+// Sau khi xóa đơn hàng (trạng thái != "Đã hủy"): tồn kho = 50 (đã khôi phục)
+// Sau khi xóa đơn hàng (trạng thái = "Đã hủy"): tồn kho = 48 (không khôi phục)
 ```
 
 ---
 
-## Order Status Flow
+## Luồng Trạng Thái Đơn Hàng
 
 ```
-Chờ xác nhận (Pending)
+Chờ xác nhận (Chờ xác nhận)
     ↓
-Đã xác nhận (Confirmed)
+Đã xác nhận (Đã xác nhận)
     ↓
-Đang giao (In Delivery)
+Đang giao (Đang giao hàng)
     ↓
-Đã giao (Delivered)
+Đã giao (Đã giao hàng)
 
-OR
+HOẶC
 
-Chờ xác nhận (Pending)
+Chờ xác nhận (Chờ xác nhận)
     ↓
-Đã hủy (Cancelled)
+Đã hủy (Đã hủy)
 ```
 
 ---
 
-## Frontend Integration Examples
+## Ví Dụ Tích Hợp Frontend
 
-### Example 1: Create Order from Shopping Cart
+### Ví dụ 1: Tạo Đơn Hàng Từ Giỏ Hàng
 
 ```javascript
 const createOrder = async (cartItems, userEmail, shippingInfo) => {
@@ -498,7 +498,7 @@ const createOrder = async (cartItems, userEmail, shippingInfo) => {
   }
 };
 
-// Usage
+// Sử dụng
 const cartItems = [
   { id: "1", name: "iPhone 15 Pro", quantity: 1, price: 999 },
   { id: "2", name: "AirPods Pro", quantity: 2, price: 249 }
@@ -522,7 +522,7 @@ createOrder(cartItems, "user@example.com", shippingInfo)
 
 ---
 
-### Example 2: Quick Buy Single Product
+### Ví dụ 2: Mua Nhanh Một Sản Phẩm
 
 ```javascript
 const quickBuy = async (productId, quantity, userEmail) => {
@@ -552,7 +552,7 @@ const quickBuy = async (productId, quantity, userEmail) => {
   }
 };
 
-// Usage
+// Sử dụng
 quickBuy("1", 1, "customer@example.com")
   .then(order => {
     alert(`Order placed! ID: ${order.id}`);
@@ -564,7 +564,7 @@ quickBuy("1", 1, "customer@example.com")
 
 ---
 
-### Example 3: Handle Stock Validation
+### Ví dụ 3: Xử Lý Xác Thực Tồn Kho
 
 ```javascript
 const createOrderWithValidation = async (orderData) => {
@@ -595,7 +595,7 @@ const createOrderWithValidation = async (orderData) => {
   }
 };
 
-// Usage
+// Sử dụng
 const orderData = {
   userEmail: "user@example.com",
   items: [
@@ -624,7 +624,7 @@ createOrderWithValidation(orderData).then(result => {
 
 ---
 
-### Example 4: Admin Updates Order Status
+### Ví dụ 4: Quản Trị Viên Cập Nhật Trạng Thái Đơn Hàng
 
 ```javascript
 const updateOrderStatus = async (orderId, newStatus) => {
@@ -647,26 +647,26 @@ const updateOrderStatus = async (orderId, newStatus) => {
   }
 };
 
-// Usage - Confirm order
+// Sử dụng - Xác nhận đơn hàng
 updateOrderStatus("1001", "Đã xác nhận")
   .then(result => {
     if (result.success) {
-      console.log('Order confirmed:', result.order);
+      console.log('Đơn hàng đã xác nhận:', result.order);
     }
   });
 
-// Mark as delivered
+// Đánh dấu đã giao
 updateOrderStatus("1001", "Đã giao")
   .then(result => {
     if (result.success) {
-      console.log('Order delivered:', result.order);
+      console.log('Đơn hàng đã giao:', result.order);
     }
   });
 ```
 
 ---
 
-### Example 5: Using Axios in React
+### Ví dụ 5: Sử Dụng Axios Trong React
 
 ```javascript
 import axios from 'axios';
@@ -717,9 +717,9 @@ const CheckoutButton = ({ cartItems, userEmail }) => {
 
 ---
 
-## Complete Order Workflow
+## Quy Trình Đơn Hàng Hoàn Chỉnh
 
-### 1. Customer Places Order
+### 1. Khách Hàng Đặt Hàng
 ```http
 POST /api/orders
 {
@@ -728,12 +728,12 @@ POST /api/orders
 }
 ```
 
-### 2. Admin Views All Orders
+### 2. Quản Trị Viên Xem Tất Cả Đơn Hàng
 ```http
 GET /api/orders
 ```
 
-### 3. Admin Confirms Order
+### 3. Quản Trị Viên Xác Nhận Đơn Hàng
 ```http
 PUT /api/orders/1001
 {
@@ -741,7 +741,7 @@ PUT /api/orders/1001
 }
 ```
 
-### 4. Order Ships
+### 4. Đơn Hàng Được Vận Chuyển
 ```http
 PUT /api/orders/1001
 {
@@ -749,7 +749,7 @@ PUT /api/orders/1001
 }
 ```
 
-### 5. Order Delivered
+### 5. Đơn Hàng Đã Giao
 ```http
 PUT /api/orders/1001
 {
@@ -757,7 +757,7 @@ PUT /api/orders/1001
 }
 ```
 
-### Or Cancel Order
+### Hoặc Hủy Đơn Hàng
 ```http
 PUT /api/orders/1001
 {

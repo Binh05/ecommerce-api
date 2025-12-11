@@ -108,7 +108,8 @@ class VoucherController {
                 discountPercent: discountPercent || 0,
                 maxDiscount: maxDiscount || 0,
                 description,
-                totalQuantity
+                totalQuantity,
+                isActive: true  // Luôn set true khi tạo mới
             });
 
             const saved = await newVoucher.save();
@@ -134,9 +135,10 @@ class VoucherController {
             const { id } = req.params;
             const updateData = { ...req.body };
 
-            // Không cho phép thay đổi claimedCount và usedCount qua API này
+            // Không cho phép thay đổi claimedCount, usedCount và isActive qua API này
             delete updateData.claimedCount;
             delete updateData.usedCount;
+            delete updateData.isActive;  // Không cho phép update isActive từ client
 
             // Uppercase code nếu có
             if (updateData.code) {
@@ -228,9 +230,16 @@ class VoucherController {
 
             // Tăng claimedCount
             voucher.claimedCount += 1;
+            
+            // Auto-disable voucher khi hết hàng
+            if (voucher.claimedCount >= voucher.totalQuantity) {
+                voucher.isActive = false;
+                console.log(`🔴 Voucher ${voucher.code} is now out of stock - auto-disabled`);
+            }
+            
             await voucher.save();
 
-            console.log(`✅ User ${user.username} claimed voucher ${voucher.code}`);
+            console.log(`✅ User ${user.username} claimed voucher ${voucher.code} (${voucher.claimedCount}/${voucher.totalQuantity})`);
 
             return ApiResponse.success(res, {
                 message: "Voucher claimed successfully",

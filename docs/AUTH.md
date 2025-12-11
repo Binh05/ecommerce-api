@@ -1,16 +1,16 @@
-# Authentication API
+# API Xác Thực
 
-## Base URL
+## URL Cơ Bản
 ```
 http://localhost:5000/api/auth
 ```
 
 ---
 
-## Endpoints
+## Các Endpoint
 
-### 1. Register New User
-Create a new user account.
+### 1. Đăng Ký Người Dùng Mới
+Tạo tài khoản người dùng mới.
 
 ```http
 POST /api/auth/register
@@ -29,17 +29,17 @@ Content-Type: application/json
 }
 ```
 
-**Required Fields:**
-- `email` (string) - Valid email address (must be unique)
-- `username` (string) - User's display name
-- `password` (string) - User's password (will be hashed)
+**Các Trường Bắt Buộc:**
+- `email` (string) - Địa chỉ email hợp lệ (phải là duy nhất)
+- `username` (string) - Tên hiển thị của người dùng
+- `password` (string) - Mật khẩu của người dùng (sẽ được mã hóa)
 
-**Optional Fields:**
-- `dob` (date) - Date of birth (ISO 8601 format)
-- `address` (string) - User's address
-- `avatar` (string) - Avatar URL (defaults to default image)
+**Các Trường Tùy Chọn:**
+- `dob` (date) - Ngày sinh (định dạng ISO 8601)
+- `address` (string) - Địa chỉ của người dùng
+- `avatar` (string) - URL avatar (mặc định là ảnh mặc định)
 
-**Success Response (201):**
+**Phản Hồi Thành Công (201):**
 ```json
 {
   "code": 201,
@@ -59,16 +59,16 @@ Content-Type: application/json
 }
 ```
 
-**Notes:**
-- Password is automatically hashed using bcrypt
-- Default role is "user"
-- Default avatar is provided if not specified
-- Tokens are returned for immediate login after registration
+**Ghi Chú:**
+- Mật khẩu được tự động mã hóa bằng bcrypt
+- Vai trò mặc định là "user"
+- Avatar mặc định được cung cấp nếu không chỉ định
+- Token được trả về để đăng nhập ngay sau khi đăng ký
 
 ---
 
-### 2. Login
-Authenticate a user and receive access tokens.
+### 2. Đăng Nhập
+Xác thực người dùng và nhận access token.
 
 ```http
 POST /api/auth/login
@@ -83,11 +83,11 @@ Content-Type: application/json
 }
 ```
 
-**Required Fields:**
-- `email` (string) - User's email
-- `password` (string) - User's password
+**Các Trường Bắt Buộc:**
+- `email` (string) - Email của người dùng
+- `password` (string) - Mật khẩu của người dùng
 
-**Success Response (200):**
+**Phản Hồi Thành Công (200):**
 ```json
 {
   "code": 200,
@@ -106,9 +106,9 @@ Content-Type: application/json
 }
 ```
 
-**Error Responses:**
+**Phản Hồi Lỗi:**
 
-Invalid credentials:
+Thông tin đăng nhập không hợp lệ:
 ```json
 {
   "code": 401,
@@ -116,16 +116,16 @@ Invalid credentials:
 }
 ```
 
-**Notes:**
-- Access token expires in 15 minutes
-- Refresh token expires in 7 days
-- Refresh token is also stored in the database
-- Password is not returned in the response
+**Ghi Chú:**
+- Access token hết hạn sau 15 phút
+- Refresh token hết hạn sau 7 ngày
+- Refresh token cũng được lưu trong cơ sở dữ liệu
+- Mật khẩu không được trả về trong phản hồi
 
 ---
 
-### 3. Refresh Token
-Get a new access token using refresh token.
+### 3. Làm Mới Token
+Lấy access token mới bằng refresh token.
 
 ```http
 POST /api/auth/refresh
@@ -139,10 +139,10 @@ Content-Type: application/json
 }
 ```
 
-**Required Fields:**
-- `refreshToken` (string) - Valid refresh token
+**Các Trường Bắt Buộc:**
+- `refreshToken` (string) - Refresh token hợp lệ
 
-**Success Response (200):**
+**Phản Hồi Thành Công (200):**
 ```json
 {
   "code": 200,
@@ -153,9 +153,9 @@ Content-Type: application/json
 }
 ```
 
-**Error Responses:**
+**Phản Hồi Lỗi:**
 
-Missing refresh token:
+Thiếu refresh token:
 ```json
 {
   "code": 401,
@@ -163,7 +163,7 @@ Missing refresh token:
 }
 ```
 
-Invalid refresh token:
+Refresh token không hợp lệ:
 ```json
 {
   "code": 403,
@@ -171,15 +171,15 @@ Invalid refresh token:
 }
 ```
 
-**Notes:**
-- Both new access token and refresh token are returned
-- Old refresh token is invalidated
-- Use this when access token expires
+**Ghi Chú:**
+- Cả access token và refresh token mới đều được trả về
+- Refresh token cũ sẽ bị vô hiệu hóa
+- Sử dụng khi access token hết hạn
 
 ---
 
-### 4. Logout
-Invalidate user's refresh token.
+### 4. Đăng Xuất
+Vô hiệu hóa refresh token của người dùng.
 
 ```http
 POST /api/auth/logout
@@ -193,10 +193,10 @@ Content-Type: application/json
 }
 ```
 
-**Required Fields:**
-- `userId` (string) - User's ID
+**Các Trường Bắt Buộc:**
+- `userId` (string) - ID của người dùng
 
-**Success Response (200):**
+**Phản Hồi Thành Công (200):**
 ```json
 {
   "code": 200,
@@ -204,17 +204,17 @@ Content-Type: application/json
 }
 ```
 
-**Notes:**
-- Removes refresh token from database
-- Client should also delete stored tokens
+**Ghi Chú:**
+- Xóa refresh token khỏi cơ sở dữ liệu
+- Client cũng nên xóa các token đã lưu
 
 ---
 
-## Authentication Flow
+## Luồng Xác Thực
 
-### Complete Authentication Workflow
+### Quy Trình Xác Thực Hoàn Chỉnh
 
-**1. Register or Login:**
+**1. Đăng Ký hoặc Đăng Nhập:**
 ```javascript
 // Register
 const response = await fetch('http://localhost:5000/api/auth/register', {
@@ -246,7 +246,7 @@ localStorage.setItem('refreshToken', refreshToken);
 localStorage.setItem('user', JSON.stringify(user));
 ```
 
-**2. Make Authenticated Requests:**
+**2. Thực Hiện Các Request Đã Xác Thực:**
 ```javascript
 const makeAuthRequest = async (url, options = {}) => {
   const accessToken = localStorage.getItem('accessToken');
@@ -259,11 +259,11 @@ const makeAuthRequest = async (url, options = {}) => {
     }
   });
 
-  // If token expired (401), refresh it
+  // Nếu token hết hạn (401), làm mới nó
   if (response.status === 401) {
     const newToken = await refreshAccessToken();
     if (newToken) {
-      // Retry request with new token
+      // Thử lại request với token mới
       return fetch(url, {
         ...options,
         headers: {
@@ -278,7 +278,7 @@ const makeAuthRequest = async (url, options = {}) => {
 };
 ```
 
-**3. Refresh Token When Expired:**
+**3. Làm Mới Token Khi Hết Hạn:**
 ```javascript
 const refreshAccessToken = async () => {
   const refreshToken = localStorage.getItem('refreshToken');
@@ -298,14 +298,14 @@ const refreshAccessToken = async () => {
       return data.accessToken;
     }
   } catch (error) {
-    // Refresh failed - logout user
+    // Làm mới thất bại - đăng xuất người dùng
     logout();
     return null;
   }
 };
 ```
 
-**4. Logout:**
+**4. Đăng Xuất:**
 ```javascript
 const logout = async () => {
   const user = JSON.parse(localStorage.getItem('user'));
@@ -328,14 +328,14 @@ const logout = async () => {
 
 ---
 
-## React Example with Axios
+## Ví Dụ React với Axios
 
 ```javascript
 import axios from 'axios';
 
 const API_BASE_URL = 'http://localhost:5000/api';
 
-// Create axios instance
+// Tạo axios instance
 const api = axios.create({
   baseURL: API_BASE_URL,
   headers: {
@@ -343,7 +343,7 @@ const api = axios.create({
   }
 });
 
-// Add access token to requests
+// Thêm access token vào requests
 api.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem('accessToken');
@@ -355,7 +355,7 @@ api.interceptors.request.use(
   (error) => Promise.reject(error)
 );
 
-// Handle token refresh on 401
+// Xử lý làm mới token khi gặp lỗi 401
 api.interceptors.response.use(
   (response) => response,
   async (error) => {
@@ -378,7 +378,7 @@ api.interceptors.response.use(
         originalRequest.headers.Authorization = `Bearer ${accessToken}`;
         return api(originalRequest);
       } catch (refreshError) {
-        // Refresh failed - logout
+        // Làm mới thất bại - đăng xuất
         localStorage.clear();
         window.location.href = '/login';
         return Promise.reject(refreshError);
@@ -392,11 +392,11 @@ api.interceptors.response.use(
 export default api;
 ```
 
-**Usage:**
+**Cách Sử Dụng:**
 ```javascript
 import api from './api';
 
-// Login
+// Đăng nhập
 const login = async (email, password) => {
   try {
     const response = await api.post('/auth/login', { email, password });
@@ -412,7 +412,7 @@ const login = async (email, password) => {
   }
 };
 
-// Register
+// Đăng ký
 const register = async (userData) => {
   try {
     const response = await api.post('/auth/register', userData);
@@ -428,7 +428,7 @@ const register = async (userData) => {
   }
 };
 
-// Logout
+// Đăng xuất
 const logout = async () => {
   const user = JSON.parse(localStorage.getItem('user'));
   
@@ -443,31 +443,31 @@ const logout = async () => {
 
 ---
 
-## Token Information
+## Thông Tin Token
 
 ### Access Token
-- **Lifetime:** 15 minutes
-- **Purpose:** Authenticate API requests
-- **Storage:** localStorage or sessionStorage
+- **Thời Gian Sống:** 15 phút
+- **Mục Đích:** Xác thực các API request
+- **Lưu Trữ:** localStorage hoặc sessionStorage
 - **Header:** `Authorization: Bearer <accessToken>`
 
 ### Refresh Token
-- **Lifetime:** 7 days
-- **Purpose:** Get new access token
-- **Storage:** localStorage (more persistent) or httpOnly cookie (more secure)
-- **Note:** Stored in database, invalidated on logout
+- **Thời Gian Sống:** 7 ngày
+- **Mục Đích:** Lấy access token mới
+- **Lưu Trữ:** localStorage (bền vững hơn) hoặc httpOnly cookie (an toàn hơn)
+- **Ghi Chú:** Được lưu trong cơ sở dữ liệu, bị vô hiệu hóa khi đăng xuất
 
 ---
 
-## Security Best Practices
+## Các Phương Pháp Bảo Mật Tốt Nhất
 
-1. **Always use HTTPS in production**
-2. **Store tokens securely:**
-   - Consider httpOnly cookies for refresh tokens
-   - Use secure storage on mobile apps
-3. **Implement token rotation**
-4. **Set appropriate token expiration times**
-5. **Validate tokens on every request**
-6. **Implement rate limiting on auth endpoints**
-7. **Hash passwords with bcrypt (already implemented)**
-8. **Never expose passwords in responses (already implemented)**
+1. **Luôn sử dụng HTTPS trong môi trường production**
+2. **Lưu trữ token một cách an toàn:**
+   - Cân nhắc sử dụng httpOnly cookies cho refresh token
+   - Sử dụng lưu trữ an toàn trên ứng dụng di động
+3. **Triển khai token rotation**
+4. **Đặt thời gian hết hạn token phù hợp**
+5. **Xác thực token ở mọi request**
+6. **Triển khai rate limiting trên các endpoint xác thực**
+7. **Mã hóa mật khẩu bằng bcrypt (đã được triển khai)**
+8. **Không bao giờ để lộ mật khẩu trong phản hồi (đã được triển khai)**

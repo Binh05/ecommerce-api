@@ -1,22 +1,22 @@
-# Products API
+# API Sản phẩm
 
-## Base URL
+## URL Cơ bản
 ```
 http://localhost:5000/api/products
 ```
 
 ---
 
-## Endpoints
+## Các Điểm cuối (Endpoints)
 
-### 1. Get All Products
-Get a list of all products in the database.
+### 1. Lấy Tất cả Sản phẩm
+Lấy danh sách tất cả sản phẩm trong cơ sở dữ liệu.
 
 ```http
 GET /api/products
 ```
 
-**Response:**
+**Phản hồi:**
 ```json
 {
   "code": 200,
@@ -63,22 +63,22 @@ GET /api/products
 
 ---
 
-### 2. Get Product by ID
-Get details of a specific product.
+### 2. Lấy Sản phẩm theo ID
+Lấy thông tin chi tiết của một sản phẩm cụ thể.
 
 ```http
 GET /api/products/:id
 ```
 
-**Parameters:**
-- `id` (path, required) - Product ID (number)
+**Tham số:**
+- `id` (đường dẫn, bắt buộc) - ID Sản phẩm (số)
 
-**Example:**
+**Ví dụ:**
 ```http
 GET /api/products/1
 ```
 
-**Success Response (200):**
+**Phản hồi Thành công (200):**
 ```json
 {
   "code": 200,
@@ -94,25 +94,25 @@ GET /api/products/1
 }
 ```
 
-**Error Response (400):**
+**Phản hồi Lỗi (400):**
 ```json
 {
   "code": 400,
-  "data": "Product not found"
+  "data": "Không tìm thấy sản phẩm"
 }
 ```
 
 ---
 
-### 3. Create Product
-Add a new product to the database.
+### 3. Tạo Sản phẩm
+Thêm một sản phẩm mới vào cơ sở dữ liệu.
 
 ```http
 POST /api/products
 Content-Type: application/json
 ```
 
-**Request Body:**
+**Nội dung Yêu cầu:**
 ```json
 {
   "title": "Samsung Galaxy S24",
@@ -143,28 +143,28 @@ Content-Type: application/json
 }
 ```
 
-**Required Fields:**
-- `title` (string) - Product name
-- `price` (number) - Product price
+**Trường Bắt buộc:**
+- `title` (chuỗi) - Tên sản phẩm
+- `price` (số) - Giá sản phẩm
 
-**Optional Fields:**
-- `description` (string) - Product description
-- `brand` (string) - Brand name
-- `category` (string) - Product category
-- `stock` (number) - Available stock
-- `discountPercentage` (number) - Discount percentage
-- `rating` (number) - Product rating (0-5)
-- `thumbnail` (string) - Base64 encoded image (max 10MB)
-- `images` (array) - Array of image URLs or base64 strings
-- `tags` (array) - Product tags
-- `weight` (number) - Product weight in grams
-- `dimensions` (object) - Product dimensions
-  - `width` (number)
-  - `height` (number)
-  - `depth` (number)
+**Trường Tùy chọn:**
+- `description` (chuỗi) - Mô tả sản phẩm
+- `brand` (chuỗi) - Tên thương hiệu
+- `category` (chuỗi) - Danh mục sản phẩm
+- `stock` (số) - Số lượng tồn kho
+- `discountPercentage` (số) - Phần trăm giảm giá
+- `rating` (số) - Đánh giá sản phẩm (0-5)
+- `thumbnail` (chuỗi) - Hình ảnh mã hóa Base64 (tối đa 10MB)
+- `images` (mảng) - Mảng các URL hình ảnh hoặc chuỗi base64
+- `tags` (mảng) - Thẻ sản phẩm
+- `weight` (số) - Trọng lượng sản phẩm tính bằng gram
+- `dimensions` (đối tượng) - Kích thước sản phẩm
+  - `width` (số)
+  - `height` (số)
+  - `depth` (số)
 - `sku`, `availabilityStatus`, `minimumOrderQuantity`, `returnPolicy`, `warrantyInformation`, `shippingInformation`
 
-**Success Response (201):**
+**Phản hồi Thành công (201):**
 ```json
 {
   "code": 201,
@@ -183,35 +183,35 @@ Content-Type: application/json
 }
 ```
 
-**Error Response (400):**
+**Phản hồi Lỗi (400):**
 ```json
 {
   "code": 400,
-  "data": "Title and price are required"
+  "data": "Tiêu đề và giá là bắt buộc"
 }
 ```
 
-**Notes:**
-- Product ID is auto-generated (sequential)
-- Images should be base64 encoded with proper prefix
-- Total payload must not exceed 10MB
-- Metadata timestamps are automatically generated
-- Server logs: `Error creating product:` if validation fails
+**Lưu ý:**
+- ID Sản phẩm được tự động tạo (tuần tự)
+- Hình ảnh phải được mã hóa base64 với tiền tố phù hợp
+- Tổng dung lượng không được vượt quá 10MB
+- Dấu thời gian siêu dữ liệu được tạo tự động
+- Nhật ký máy chủ: `Error creating product:` nếu xác thực thất bại
 
 ---
 
-### 4. Update Product
-Update an existing product.
+### 4. Cập nhật Sản phẩm
+Cập nhật một sản phẩm hiện có.
 
 ```http
 PUT /api/products/:id
 Content-Type: application/json
 ```
 
-**Parameters:**
-- `id` (path, required) - Product ID to update
+**Tham số:**
+- `id` (đường dẫn, bắt buộc) - ID Sản phẩm cần cập nhật
 
-**Request Body:**
+**Nội dung Yêu cầu:**
 ```json
 {
   "title": "iPhone 15 Pro Max",
@@ -223,14 +223,14 @@ Content-Type: application/json
 }
 ```
 
-**Required Fields:**
-- `title` (string) - Product name
-- `price` (number) - Product price
+**Trường Bắt buộc:**
+- `title` (chuỗi) - Tên sản phẩm
+- `price` (số) - Giá sản phẩm
 
-**Optional Fields:**
-- Any product field you want to update
+**Trường Tùy chọn:**
+- Bất kỳ trường sản phẩm nào bạn muốn cập nhật
 
-**Success Response (200):**
+**Phản hồi Thành công (200):**
 ```json
 {
   "code": 200,
@@ -249,85 +249,85 @@ Content-Type: application/json
 }
 ```
 
-**Error Responses:**
+**Phản hồi Lỗi:**
 ```json
-// Missing required fields
+// Thiếu trường bắt buộc
 {
   "code": 400,
-  "data": "Title and price are required"
+  "data": "Tiêu đề và giá là bắt buộc"
 }
 
-// Product not found
+// Không tìm thấy sản phẩm
 {
   "code": 400,
-  "data": "Product not found"
+  "data": "Không tìm thấy sản phẩm"
 }
 ```
 
-**Notes:**
-- `meta.updatedAt` is automatically updated
-- Only provided fields are updated
-- Product ID cannot be changed
-- Server logs: `Error updating product:` if update fails
+**Lưu ý:**
+- `meta.updatedAt` được tự động cập nhật
+- Chỉ các trường được cung cấp mới được cập nhật
+- ID Sản phẩm không thể thay đổi
+- Nhật ký máy chủ: `Error updating product:` nếu cập nhật thất bại
 
 ---
 
-### 5. Delete Product
-Remove a product from the database.
+### 5. Xóa Sản phẩm
+Xóa một sản phẩm khỏi cơ sở dữ liệu.
 
 ```http
 DELETE /api/products/:id
 ```
 
-**Parameters:**
-- `id` (path, required) - Product ID to delete
+**Tham số:**
+- `id` (đường dẫn, bắt buộc) - ID Sản phẩm cần xóa
 
-**Example:**
+**Ví dụ:**
 ```http
 DELETE /api/products/5
 ```
 
-**Success Response (200):**
+**Phản hồi Thành công (200):**
 ```json
 {
   "code": 200,
-  "data": "Product deleted successfully"
+  "data": "Xóa sản phẩm thành công"
 }
 ```
 
-**Error Response (400):**
+**Phản hồi Lỗi (400):**
 ```json
 {
   "code": 400,
-  "data": "Product not found"
+  "data": "Không tìm thấy sản phẩm"
 }
 ```
 
-**Notes:**
-- Deletion is permanent
-- Returns success even if product doesn't exist (idempotent)
+**Lưu ý:**
+- Việc xóa là vĩnh viễn
+- Trả về thành công ngay cả khi sản phẩm không tồn tại (bất biến)
 
 ---
 
-## Image Upload Guide
+## Hướng dẫn Tải lên Hình ảnh
 
-### Base64 Encoding
-Products support base64 encoded images for the `thumbnail` and `images` fields.
+### Mã hóa Base64
+Sản phẩm hỗ trợ hình ảnh được mã hóa base64 cho các trường `thumbnail` và `images`.
 
-**Format:**
+**Định dạng:**
 ```
 data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQ...
 data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAA...
 ```
 
-### Size Limits
-- Maximum single image: ~7.5MB (after base64 encoding)
-- Maximum total payload: 10MB
-- Recommended image size: 1-2MB for optimal performance
+### Giới hạn Kích thước
+- Hình ảnh đơn tối đa: ~7.5MB (sau khi mã hóa base64)
+- Tổng dung lượng tối đa: 10MB
+- Kích thước hình ảnh khuyến nghị: 1-2MB để có hiệu suất tối ưu
 
-### JavaScript Example:
+### Ví dụ JavaScript:
 ```javascript
-// Convert file to base64
+// Chuyển đổi tệp sang base64
 const fileToBase64 = (file) => {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
@@ -337,11 +337,11 @@ const fileToBase64 = (file) => {
   });
 };
 
-// Usage
+// Sử dụng
 const imageFile = document.querySelector('input[type="file"]').files[0];
 const base64Image = await fileToBase64(imageFile);
 
-// Create product with image
+// Tạo sản phẩm với hình ảnh
 const productData = {
   title: "New Product",
   price: 299,
@@ -357,9 +357,9 @@ fetch('http://localhost:5000/api/products', {
 
 ---
 
-## Example Use Cases
+## Ví dụ Trường hợp Sử dụng
 
-### Get all products and display
+### Lấy tất cả sản phẩm và hiển thị
 ```javascript
 fetch('http://localhost:5000/api/products')
   .then(res => res.json())
@@ -373,7 +373,7 @@ fetch('http://localhost:5000/api/products')
   });
 ```
 
-### Create a new product
+### Tạo một sản phẩm mới
 ```javascript
 const newProduct = {
   title: "MacBook Pro M3",
@@ -401,34 +401,34 @@ fetch('http://localhost:5000/api/products', {
   });
 ```
 
-### Update product price
+### Cập nhật giá sản phẩm
 ```javascript
 fetch('http://localhost:5000/api/products/1', {
   method: 'PUT',
   headers: { 'Content-Type': 'application/json' },
   body: JSON.stringify({
     title: "iPhone 15 Pro",
-    price: 899  // Updated price
+    price: 899  // Giá đã cập nhật
   })
 })
   .then(res => res.json())
   .then(data => console.log('Updated:', data.data));
 ```
 
-### Delete a product
+### Xóa một sản phẩm
 ```javascript
 fetch('http://localhost:5000/api/products/5', {
   method: 'DELETE'
 })
   .then(res => res.json())
-  .then(data => console.log(data.data)); // "Product deleted successfully"
+  .then(data => console.log(data.data)); // "Xóa sản phẩm thành công"
 ```
 
 ---
 
-## Error Handling
+## Xử lý Lỗi
 
-Always check the `code` field in the response:
+Luôn kiểm tra trường `code` trong phản hồi:
 
 ```javascript
 const handleProductRequest = async (url, options) => {
@@ -437,15 +437,15 @@ const handleProductRequest = async (url, options) => {
     const result = await response.json();
     
     if (result.code === 200 || result.code === 201) {
-      // Success
+      // Thành công
       return { success: true, data: result.data };
     } else {
-      // Error from API
+      // Lỗi từ API
       return { success: false, error: result.data };
     }
   } catch (error) {
-    // Network error
-    return { success: false, error: 'Network error' };
+    // Lỗi mạng
+    return { success: false, error: 'Lỗi mạng' };
   }
 };
 ```
