@@ -11,6 +11,7 @@ class OrdersController {
 			const orders = await Order.find()
 				.populate('user', 'username email avatar')
 				.populate('items.product', 'title thumbnail price')
+				.populate('appliedVouchers.voucher', 'code description discountAmount discountPercent maxDiscount')
 				.sort({ date: -1 });
 			return ApiResponse.success(res, orders);
 		} catch (err) {
@@ -24,7 +25,8 @@ class OrdersController {
 			const { id } = req.params;
 			const order = await Order.findOne({ id: String(id) })
 				.populate('user', 'username email avatar address')
-				.populate('items.product', 'title thumbnail price stock');
+				.populate('items.product', 'title thumbnail price stock')
+				.populate('appliedVouchers.voucher', 'code description discountAmount discountPercent maxDiscount');
 			if (!order) return ApiResponse.badRequest(res, "Order not found");
 			return ApiResponse.success(res, order);
 		} catch (err) {

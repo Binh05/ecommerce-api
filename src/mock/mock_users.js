@@ -9,6 +9,10 @@ const users = [
         role: ROLE.ADMIN,
         avatar: "https://randomuser.me/api/portraits/men/10.jpg",
         isVerified: true,
+        vouchers: [
+            { voucherCode: "VIP15", claimedAt: new Date("2024-12-15"), isUsed: true },
+            { voucherCode: "MEGA30", claimedAt: new Date("2024-12-20"), isUsed: false },
+        ]
     },
     {
         email: "nguyenvana@example.com",
@@ -19,6 +23,10 @@ const users = [
         role: ROLE.USER,
         avatar: "https://randomuser.me/api/portraits/men/11.jpg",
         isVerified: true,
+        vouchers: [
+            { voucherCode: "FLASH50", claimedAt: new Date("2025-01-01"), isUsed: true },
+            { voucherCode: "LOYALTY10", claimedAt: new Date("2025-01-05"), isUsed: false },
+        ]
     },
     {
         email: "tranthib@example.com",
@@ -29,6 +37,9 @@ const users = [
         role: ROLE.USER,
         avatar: "https://randomuser.me/api/portraits/women/22.jpg",
         isVerified: true,
+        vouchers: [
+            { voucherCode: "NEWYEAR100", claimedAt: new Date("2025-01-01"), isUsed: true },
+        ]
     },
     {
         email: "leminhc@example.com",
@@ -39,6 +50,10 @@ const users = [
         role: ROLE.USER,
         avatar: "https://randomuser.me/api/portraits/men/33.jpg",
         isVerified: true,
+        vouchers: [
+            { voucherCode: "WELCOME50", claimedAt: new Date("2024-12-28"), isUsed: true },
+            { voucherCode: "TECH20", claimedAt: new Date("2025-01-03"), isUsed: false },
+        ]
     },
     {
         email: "phamngocd@example.com",
@@ -49,6 +64,9 @@ const users = [
         role: ROLE.USER,
         avatar: "https://randomuser.me/api/portraits/women/44.jpg",
         isVerified: true,
+        vouchers: [
+            { voucherCode: "TECH20", claimedAt: new Date("2025-01-02"), isUsed: true },
+        ]
     },
     {
         email: "hoanganhe@example.com",
@@ -59,6 +77,7 @@ const users = [
         role: ROLE.USER,
         avatar: "https://randomuser.me/api/portraits/men/55.jpg",
         isVerified: true,
+        vouchers: []
     },
     {
         email: "ngothif@example.com",
@@ -69,6 +88,10 @@ const users = [
         role: ROLE.USER,
         avatar: "https://randomuser.me/api/portraits/women/66.jpg",
         isVerified: true,
+        vouchers: [
+            { voucherCode: "FREESHIP", claimedAt: new Date("2025-01-04"), isUsed: true },
+            { voucherCode: "XMAS25", claimedAt: new Date("2024-12-24"), isUsed: false },
+        ]
     },
     {
         email: "dangminhg@example.com",
@@ -79,6 +102,7 @@ const users = [
         role: ROLE.USER,
         avatar: "https://randomuser.me/api/portraits/men/77.jpg",
         isVerified: true,
+        vouchers: []
     },
     {
         email: "buithih@example.com",
@@ -89,6 +113,9 @@ const users = [
         role: ROLE.USER,
         avatar: "https://randomuser.me/api/portraits/women/88.jpg",
         isVerified: true,
+        vouchers: [
+            { voucherCode: "MEGA30", claimedAt: new Date("2025-01-01"), isUsed: true },
+        ]
     },
     {
         email: "vuduci@example.com",
@@ -99,6 +126,9 @@ const users = [
         role: ROLE.USER,
         avatar: "https://randomuser.me/api/portraits/men/99.jpg",
         isVerified: true,
+        vouchers: [
+            { voucherCode: "VIP15", claimedAt: new Date("2025-01-02"), isUsed: true },
+        ]
     },
     {
         email: "phanthanhj@example.com",
@@ -109,6 +139,9 @@ const users = [
         role: ROLE.USER,
         avatar: "https://randomuser.me/api/portraits/men/10.jpg",
         isVerified: true,
+        vouchers: [
+            { voucherCode: "WINTER200", claimedAt: new Date("2024-12-22"), isUsed: true },
+        ]
     },
     // --- Bổ sung thêm 30 users ---
     {
@@ -120,6 +153,9 @@ const users = [
         role: ROLE.USER,
         avatar: "https://randomuser.me/api/portraits/men/1.jpg",
         isVerified: true,
+        vouchers: [
+            { voucherCode: "LOYALTY10", claimedAt: new Date("2025-01-03"), isUsed: true },
+        ]
     },
     {
         email: "tranducl@example.com",
@@ -130,6 +166,7 @@ const users = [
         role: ROLE.USER,
         avatar: "https://randomuser.me/api/portraits/men/2.jpg",
         isVerified: true,
+        vouchers: []
     },
     {
         email: "lethim@example.com",
@@ -140,6 +177,9 @@ const users = [
         role: ROLE.USER,
         avatar: "https://randomuser.me/api/portraits/women/3.jpg",
         isVerified: true,
+        vouchers: [
+            { voucherCode: "XMAS25", claimedAt: new Date("2024-12-25"), isUsed: true }
+        ]
     },
     {
         email: "phamdinhn@example.com",
@@ -150,6 +190,7 @@ const users = [
         role: ROLE.USER,
         avatar: "https://randomuser.me/api/portraits/men/4.jpg",
         isVerified: true,
+        vouchers: []
     },
     {
         email: "hoangthio@example.com",
@@ -160,6 +201,10 @@ const users = [
         role: ROLE.USER,
         avatar: "https://randomuser.me/api/portraits/women/5.jpg",
         isVerified: true,
+        vouchers: [
+            { voucherCode: "FLASH50", claimedAt: new Date("2025-01-06"), isUsed: true },
+            { voucherCode: "FREESHIP", claimedAt: new Date("2025-01-07"), isUsed: true }
+        ]
     },
     {
         email: "ngoducp@example.com",
@@ -170,6 +215,7 @@ const users = [
         role: ROLE.USER,
         avatar: "https://randomuser.me/api/portraits/men/6.jpg",
         isVerified: true,
+        vouchers: []
     },
     {
         email: "dangthiquynh@example.com",
@@ -180,6 +226,7 @@ const users = [
         role: ROLE.USER,
         avatar: "https://randomuser.me/api/portraits/women/7.jpg",
         isVerified: true,
+        vouchers: []
     },
     {
         email: "buitrungk@example.com",
@@ -190,6 +237,9 @@ const users = [
         role: ROLE.USER,
         avatar: "https://randomuser.me/api/portraits/men/8.jpg",
         isVerified: true,
+        vouchers: [
+            { voucherCode: "VIP15", claimedAt: new Date("2025-01-04"), isUsed: true }
+        ]
     },
     {
         email: "vuthanhs@example.com",
@@ -200,6 +250,7 @@ const users = [
         role: ROLE.USER,
         avatar: "https://randomuser.me/api/portraits/men/9.jpg",
         isVerified: true,
+        vouchers: []
     },
     {
         email: "phanduct@example.com",
@@ -210,6 +261,9 @@ const users = [
         role: ROLE.USER,
         avatar: "https://randomuser.me/api/portraits/men/12.jpg",
         isVerified: true,
+        vouchers: [
+            { voucherCode: "TECH20", claimedAt: new Date("2025-01-05"), isUsed: true }
+        ]
     },
     {
         email: "nguyenvanu@example.com",
@@ -220,6 +274,9 @@ const users = [
         role: ROLE.USER,
         avatar: "https://randomuser.me/api/portraits/men/13.jpg",
         isVerified: true,
+        vouchers: [
+            { voucherCode: "VIP15", claimedAt: new Date("2025-01-06"), isUsed: true }
+        ]
     },
     {
         email: "tranvantranv@example.com",
@@ -230,6 +287,9 @@ const users = [
         role: ROLE.USER,
         avatar: "https://randomuser.me/api/portraits/men/14.jpg",
         isVerified: true,
+        vouchers: [
+            { voucherCode: "FREESHIP", claimedAt: new Date("2025-01-07"), isUsed: true }
+        ]
     },
     {
         email: "lethuyw@example.com",
@@ -240,6 +300,7 @@ const users = [
         role: ROLE.USER,
         avatar: "https://randomuser.me/api/portraits/women/15.jpg",
         isVerified: true,
+        vouchers: []
     },
     {
         email: "phamxuanx@example.com",
@@ -250,6 +311,7 @@ const users = [
         role: ROLE.USER,
         avatar: "https://randomuser.me/api/portraits/men/16.jpg",
         isVerified: true,
+        vouchers: []
     },
     {
         email: "hoanghaimy@example.com",
@@ -260,6 +322,9 @@ const users = [
         role: ROLE.USER,
         avatar: "https://randomuser.me/api/portraits/women/17.jpg",
         isVerified: true,
+        vouchers: [
+            { voucherCode: "WINTER200", claimedAt: new Date("2024-12-25"), isUsed: true }
+        ]
     },
     {
         email: "ngoduongz@example.com",
@@ -270,6 +335,7 @@ const users = [
         role: ROLE.USER,
         avatar: "https://randomuser.me/api/portraits/men/18.jpg",
         isVerified: true,
+        vouchers: []
     },
     {
         email: "danghoanga1@example.com",
@@ -280,6 +346,7 @@ const users = [
         role: ROLE.USER,
         avatar: "https://randomuser.me/api/portraits/men/19.jpg",
         isVerified: true,
+        vouchers: []
     },
     {
         email: "buitranga2@example.com",
@@ -290,6 +357,9 @@ const users = [
         role: ROLE.USER,
         avatar: "https://randomuser.me/api/portraits/women/20.jpg",
         isVerified: true,
+        vouchers: [
+            { voucherCode: "NEWYEAR100", claimedAt: new Date("2025-01-01"), isUsed: true }
+        ]
     },
     {
         email: "vuminha3@example.com",
@@ -300,6 +370,7 @@ const users = [
         role: ROLE.USER,
         avatar: "https://randomuser.me/api/portraits/men/21.jpg",
         isVerified: true,
+        vouchers: []
     },
     {
         email: "phanquanga4@example.com",
@@ -310,6 +381,7 @@ const users = [
         role: ROLE.USER,
         avatar: "https://randomuser.me/api/portraits/men/23.jpg",
         isVerified: true,
+        vouchers: []
     },
     {
         email: "nguyenthia5@example.com",
@@ -320,6 +392,9 @@ const users = [
         role: ROLE.USER,
         avatar: "https://randomuser.me/api/portraits/women/24.jpg",
         isVerified: true,
+        vouchers: [
+            { voucherCode: "WELCOME50", claimedAt: new Date("2025-01-08"), isUsed: true }
+        ]
     },
     {
         email: "tranhunga6@example.com",
@@ -330,6 +405,7 @@ const users = [
         role: ROLE.USER,
         avatar: "https://randomuser.me/api/portraits/men/25.jpg",
         isVerified: true,
+        vouchers: []
     },
     {
         email: "lehoanga7@example.com",
@@ -340,6 +416,9 @@ const users = [
         role: ROLE.USER,
         avatar: "https://randomuser.me/api/portraits/men/26.jpg",
         isVerified: true,
+        vouchers: [
+            { voucherCode: "TECH20", claimedAt: new Date("2025-01-09"), isUsed: true }
+        ]
     },
     {
         email: "phamthanhnga8@example.com",
@@ -350,6 +429,7 @@ const users = [
         role: ROLE.USER,
         avatar: "https://randomuser.me/api/portraits/women/27.jpg",
         isVerified: true,
+        vouchers: []
     },
     {
         email: "hoangminha9@example.com",
@@ -360,6 +440,7 @@ const users = [
         role: ROLE.USER,
         avatar: "https://randomuser.me/api/portraits/men/28.jpg",
         isVerified: true,
+        vouchers: []
     },
     {
         email: "ngoconga10@example.com",
@@ -370,6 +451,7 @@ const users = [
         role: ROLE.USER,
         avatar: "https://randomuser.me/api/portraits/men/29.jpg",
         isVerified: true,
+        vouchers: []
     },
     {
         email: "dangthiba11@example.com",
@@ -380,6 +462,9 @@ const users = [
         role: ROLE.USER,
         avatar: "https://randomuser.me/api/portraits/women/30.jpg",
         isVerified: true,
+        vouchers: [
+            { voucherCode: "MEGA30", claimedAt: new Date("2025-01-10"), isUsed: true }
+        ]
     },
     {
         email: "buihoanga12@example.com",
@@ -390,6 +475,7 @@ const users = [
         role: ROLE.USER,
         avatar: "https://randomuser.me/api/portraits/men/31.jpg",
         isVerified: true,
+        vouchers: []
     },
     {
         email: "vuthia13@example.com",
@@ -400,6 +486,9 @@ const users = [
         role: ROLE.USER,
         avatar: "https://randomuser.me/api/portraits/women/32.jpg",
         isVerified: true,
+        vouchers: [
+            { voucherCode: "XMAS25", claimedAt: new Date("2024-12-26"), isUsed: true }
+        ]
     },
     {
         email: "phamlama14@example.com",
@@ -410,6 +499,7 @@ const users = [
         role: ROLE.USER,
         avatar: "https://randomuser.me/api/portraits/men/34.jpg",
         isVerified: true,
+        vouchers: []
     },
     {
         email: "nguyenthunga15@example.com",
@@ -420,6 +510,9 @@ const users = [
         role: ROLE.USER,
         avatar: "https://randomuser.me/api/portraits/women/35.jpg",
         isVerified: true,
+        vouchers: [
+            { voucherCode: "FLASH50", claimedAt: new Date("2025-01-11"), isUsed: true }
+        ]
     },
 ];
 

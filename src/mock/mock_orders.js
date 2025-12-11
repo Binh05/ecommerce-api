@@ -1,386 +1,380 @@
 // mock_orders.js
 import STATUS from "../config/statusOrder.js"
-const orders = [
+
+// Hàm helper để tạo appliedVouchers reference (sẽ được populate sau khi insert vouchers)
+export const orders = [
     {
         id: "ORD001",
         customer: "Nguyễn Văn A",
-        email: "vana@example.com",
-        total: 39989000,
+        email: "nguyenvana@example.com",
+        originalTotal: 39989000,
+        discount: 500000,
+        total: 39489000,
         status: STATUS.ChoXacNhan,
-        date: "2025-10-20",
+        date: new Date("2025-10-20"),
         items: [
-            { name: "iPhone 15 Pro Max", quantity: 1, price: 32990000 },
-            { name: "Apple MagSafe Battery Pack", quantity: 1, price: 6999000 },
+            { productId: 119, quantity: 1, price: 5899000 }, // Apple AirPods Pro (2nd Gen)
+            { productId: 105, quantity: 1, price: 2499000 }, // Apple MagSafe Battery Pack
         ],
+        appliedVouchers: [
+            { voucherCode: "FLASH50", discountAmount: 500000 }
+        ],
+        shippingAddress: "123 Đường ABC, Q1, TP.HCM",
+        paymentMethod: "COD",
+        note: ""
     },
     {
         id: "ORD002",
         customer: "Trần Thị B",
-        email: "thib@example.com",
-        total: 9998000,
+        email: "tranthib@example.com",
+        originalTotal: 9998000,
+        discount: 100000,
+        total: 9898000,
         status: STATUS.DaXacNhan,
-        date: "2025-10-21",
+        date: new Date("2025-10-21"),
         items: [
-            { name: "Beats Flex Wireless Earphones", quantity: 2, price: 4999000 },
+            { productId: 119, quantity: 2, price: 5899000 }, // Apple AirPods Pro (2nd Gen)
         ],
+        appliedVouchers: [
+            { voucherCode: "NEWYEAR100", discountAmount: 100000 }
+        ],
+        shippingAddress: "456 Đường XYZ, Q2, TP.HCM",
+        paymentMethod: "COD",
+        note: "Giao giờ hành chính"
     },
     {
         id: "ORD003",
         customer: "Lê Minh C",
-        email: "minhc@example.com",
-        total: 699700,
+        email: "leminhc@example.com",
+        originalTotal: 699700,
+        discount: 50000,
+        total: 649700,
         status: STATUS.ChoXacNhan,
-        date: "2025-10-22",
+        date: new Date("2025-10-22"),
         items: [
-            { name: "Apple iPhone Charger", quantity: 2, price: 199900 },
-            { name: "iPhone 12 Silicone Case", quantity: 1, price: 299900 },
+            { productId: 104, quantity: 2, price: 199900 }, // Apple iPhone Charger
+            { productId: 108, quantity: 1, price: 299900 }, // iPhone 12 Silicone Case
         ],
+        appliedVouchers: [
+            { voucherCode: "WELCOME50", discountAmount: 50000 }
+        ],
+        shippingAddress: "789 Đường DEF, Q3, TP.HCM",
+        paymentMethod: "Banking",
+        note: ""
     },
     {
         id: "ORD004",
         customer: "Phạm Quang D",
-        email: "quangd@example.com",
-        total: 48990000,
+        email: "phamngocd@example.com",
+        originalTotal: 48990000,
+        discount: 1000000,
+        total: 47990000,
         status: STATUS.DaXacNhan,
-        date: "2025-10-22",
+        date: new Date("2025-10-22"),
         items: [
-            { name: "MacBook Pro M3 2024", quantity: 1, price: 48990000 },
+            { productId: 119, quantity: 1, price: 5899000 }, // Apple AirPods Pro (2nd Gen)
         ],
+        appliedVouchers: [
+            { voucherCode: "TECH20", discountAmount: 1000000 }
+        ],
+        shippingAddress: "321 Đường GHI, Q4, TP.HCM",
+        paymentMethod: "COD",
+        note: "Kiểm tra kỹ trước khi nhận"
     },
-    // --- Bổ sung thêm 30 orders ---
     {
         id: "ORD005",
         customer: "Hoàng Thị E",
-        email: "thie@example.com",
+        email: "hoanganhe@example.com",
+        originalTotal: 21489000,
+        discount: 0,
         total: 21489000,
         status: STATUS.ChoXacNhan,
-        date: "2025-10-23",
+        date: new Date("2025-10-23"),
         items: [
-            { name: "Apple Watch Ultra 2", quantity: 1, price: 21489000 },
+            { productId: 140, quantity: 1, price: 21489000 }, // Apple Watch Ultra 2
         ],
+        appliedVouchers: [],
+        shippingAddress: "654 Đường JKL, Q5, TP.HCM",
+        paymentMethod: "COD",
+        note: ""
     },
     {
         id: "ORD006",
         customer: "Ngô Văn F",
-        email: "vanf@example.com",
-        total: 5899000,
+        email: "ngothif@example.com",
+        originalTotal: 5899000,
+        discount: 30000,
+        total: 5869000,
         status: STATUS.ChoXacNhan,
-        date: "2025-10-23",
+        date: new Date("2025-10-23"),
         items: [
-            { name: "AirPods Pro (2nd Gen)", quantity: 1, price: 5899000 },
+            { productId: 119, quantity: 1, price: 5899000 }, // AirPods Pro (2nd Gen)
         ],
+        appliedVouchers: [
+            { voucherCode: "FREESHIP", discountAmount: 30000 }
+        ],
+        shippingAddress: "987 Đường MNO, Q6, TP.HCM",
+        paymentMethod: "COD",
+        note: ""
     },
     {
         id: "ORD007",
         customer: "Đặng Thị G",
-        email: "thig@example.com",
+        email: "dangminhg@example.com",
+        originalTotal: 1298000,
+        discount: 0,
         total: 1298000,
         status: STATUS.ChoXacNhan,
-        date: "2025-10-24",
+        date: new Date("2025-10-24"),
         items: [
-            { name: "Lightning to USB Cable (1m)", quantity: 4, price: 324500 },
+            { productId: 145, quantity: 4, price: 324500 }, // Lightning to USB Cable
         ],
+        appliedVouchers: [],
+        shippingAddress: "147 Đường PQR, Q7, TP.HCM",
+        paymentMethod: "Banking",
+        note: ""
     },
     {
         id: "ORD008",
         customer: "Bùi Minh H",
-        email: "minhh@example.com",
-        total: 16999000,
-        status: STATUS.ChoXacNhan,
-        date: "2025-10-24",
+        email: "buithih@example.com",
+        originalTotal: 20489000,
+        discount: 800000,
+        total: 19689000,
+        status: STATUS.DaXacNhan,
+        date: new Date("2025-10-24"),
         items: [
-            { name: "iPad Air M1", quantity: 1, price: 16999000 },
-            { name: "Apple Pencil (2nd Gen)", quantity: 1, price: 3490000 },
+            { productId: 119, quantity: 1, price: 5899000 }, // AirPods Pro
+            { productId: 135, quantity: 1, price: 3490000 }, // Apple Pencil (2nd Gen)
         ],
+        appliedVouchers: [
+            { voucherCode: "MEGA30", discountAmount: 800000 }
+        ],
+        shippingAddress: "258 Đường STU, Q8, TP.HCM",
+        paymentMethod: "COD",
+        note: ""
     },
     {
         id: "ORD009",
         customer: "Vũ Thanh I",
-        email: "thanhi@example.com",
-        total: 41980000,
-        status: STATUS.ChoXacNhan,
-        date: "2025-10-25",
+        email: "vuduci@example.com",
+        originalTotal: 41980000,
+        discount: 2000000,
+        total: 39980000,
+        status: STATUS.DaGiao,
+        date: new Date("2025-10-25"),
         items: [
-            { name: "iPhone 15 Pro", quantity: 2, price: 20990000 },
+            { productId: 119, quantity: 2, price: 5899000 }, // AirPods Pro
         ],
+        appliedVouchers: [
+            { voucherCode: "VIP15", discountAmount: 2000000 }
+        ],
+        shippingAddress: "369 Đường VWX, Q9, TP.HCM",
+        paymentMethod: "Banking",
+        note: "Khách VIP"
     },
     {
         id: "ORD010",
         customer: "Phan Đình J",
-        email: "dinhj@example.com",
-        total: 2999000,
+        email: "phanthanhj@example.com",
+        originalTotal: 8999000,
+        discount: 200000,
+        total: 8799000,
         status: STATUS.ChoXacNhan,
-        date: "2025-10-25",
+        date: new Date("2025-10-25"),
         items: [
-            { name: "Magic Keyboard for iPad Pro", quantity: 1, price: 8999000 },
+            { productId: 135, quantity: 1, price: 3490000 }, // Apple Pencil
         ],
+        appliedVouchers: [
+            { voucherCode: "WINTER200", discountAmount: 200000 }
+        ],
+        shippingAddress: "741 Đường YZA, Q10, TP.HCM",
+        paymentMethod: "COD",
+        note: ""
     },
     {
         id: "ORD011",
         customer: "Nguyễn Văn K",
-        email: "vank@example.com",
-        total: 10499000,
+        email: "nguyenhoangk@example.com",
+        originalTotal: 3480000,
+        discount: 348000,
+        total: 3132000,
         status: STATUS.DaXacNhan,
-        date: "2025-10-26",
+        date: new Date("2025-10-26"),
         items: [
-            { name: "MacBook Air M2 Charger", quantity: 1, price: 1490000 },
-            { name: "Logitech MX Master 3S", quantity: 1, price: 1990000 },
+            { productId: 104, quantity: 1, price: 199900 }, // iPhone Charger
+            { productId: 105, quantity: 1, price: 2499000 }, // MagSafe Battery
         ],
+        appliedVouchers: [
+            { voucherCode: "LOYALTY10", discountAmount: 348000 }
+        ],
+        shippingAddress: "852 Đường BCD, Q11, TP.HCM",
+        paymentMethod: "COD",
+        note: ""
     },
     {
         id: "ORD012",
         customer: "Trần Minh L",
-        email: "minhl@example.com",
+        email: "tranducl@example.com",
+        originalTotal: 799000,
+        discount: 0,
         total: 799000,
         status: STATUS.ChoXacNhan,
-        date: "2025-10-26",
+        date: new Date("2025-10-26"),
         items: [
-            { name: "AirTag", quantity: 4, price: 199750 },
+            { productId: 108, quantity: 4, price: 299900 }, // iPhone Case
         ],
+        appliedVouchers: [],
+        shippingAddress: "963 Đường EFG, Q12, TP.HCM",
+        paymentMethod: "Banking",
+        note: ""
     },
     {
         id: "ORD013",
         customer: "Lê Thị M",
-        email: "thim@example.com",
-        total: 25990000,
-        status: STATUS.ChoXacNhan,
-        date: "2025-10-27",
+        email: "lethim@example.com",
+        originalTotal: 25990000,
+        discount: 600000,
+        total: 25390000,
+        status: STATUS.DaGiao,
+        date: new Date("2025-10-27"),
         items: [
-            { name: "MacBook Air M3 2024", quantity: 1, price: 25990000 },
+            { productId: 119, quantity: 1, price: 5899000 }, // AirPods Pro
         ],
+        appliedVouchers: [
+            { voucherCode: "XMAS25", discountAmount: 600000 }
+        ],
+        shippingAddress: "159 Đường HIJ, Bình Thạnh, TP.HCM",
+        paymentMethod: "Banking",
+        note: "Giao buổi sáng"
     },
     {
         id: "ORD014",
         customer: "Phạm Hùng N",
-        email: "hungn@example.com",
+        email: "phamdinhn@example.com",
+        originalTotal: 3999000,
+        discount: 0,
         total: 3999000,
         status: STATUS.ChoXacNhan,
-        date: "2025-10-27",
+        date: new Date("2025-10-27"),
         items: [
-            { name: "HomePod Mini", quantity: 2, price: 1999500 },
+            { productId: 128, quantity: 2, price: 1999500 }, // Apple HomePod (2nd Gen)
         ],
+        appliedVouchers: [],
+        shippingAddress: "753 Đường KLM, Phú Nhuận, TP.HCM",
+        paymentMethod: "COD",
+        note: ""
     },
     {
         id: "ORD015",
         customer: "Hoàng Anh O",
-        email: "anho@example.com",
-        total: 14999000,
-        status: STATUS.ChoXacNhan,
-        date: "2025-10-28",
+        email: "hoangthio@example.com",
+        originalTotal: 14999000,
+        discount: 500000,
+        total: 14499000,
+        status: STATUS.DaGiao,
+        date: new Date("2025-10-28"),
         items: [
-            { name: "iPad Pro 11-inch (2022)", quantity: 1, price: 14999000 },
+            { productId: 140, quantity: 1, price: 21489000 }, // Apple Watch Ultra 2
         ],
+        appliedVouchers: [
+            { voucherCode: "FLASH50", discountAmount: 500000 }
+        ],
+        shippingAddress: "951 Đường NOP, Gò Vấp, TP.HCM",
+        paymentMethod: "Banking",
+        note: ""
     },
     {
         id: "ORD016",
         customer: "Ngô Thị P",
-        email: "thip@example.com",
+        email: "ngoducp@example.com",
+        originalTotal: 1999000,
+        discount: 0,
         total: 1999000,
         status: STATUS.ChoXacNhan,
-        date: "2025-10-28",
+        date: new Date("2025-10-28"),
         items: [
-            { name: "iPhone Leather Wallet with MagSafe", quantity: 1, price: 1999000 },
+            { productId: 105, quantity: 1, price: 2499000 }, // MagSafe Battery Pack
         ],
+        appliedVouchers: [],
+        shippingAddress: "357 Đường QRS, Tân Bình, TP.HCM",
+        paymentMethod: "COD",
+        note: ""
     },
     {
         id: "ORD017",
         customer: "Đặng Văn Q",
-        email: "vanq@example.com",
-        total: 55980000,
+        email: "dangthiquynh@example.com",
+        originalTotal: 55980000,
+        discount: 2000000,
+        total: 53980000,
         status: STATUS.DaXacNhan,
-        date: "2025-10-29",
+        date: new Date("2025-10-29"),
         items: [
-            { name: "Mac Studio M2 Max", quantity: 1, price: 55980000 },
+            { productId: 119, quantity: 1, price: 5899000 }, // AirPods Pro
+            { productId: 121, quantity: 1, price: 8999000 }, // Apple Watch SE
         ],
+        appliedVouchers: [
+            { voucherCode: "VIP15", discountAmount: 2000000 }
+        ],
+        shippingAddress: "486 Đường TUV, Tân Phú, TP.HCM",
+        paymentMethod: "Banking",
+        note: "Khách hàng doanh nghiệp"
     },
     {
         id: "ORD018",
         customer: "Bùi Thị R",
-        email: "thir@example.com",
+        email: "buitrungk@example.com",
+        originalTotal: 998000,
+        discount: 0,
         total: 998000,
         status: STATUS.ChoXacNhan,
-        date: "2025-10-29",
+        date: new Date("2025-10-29"),
         items: [
-            { name: "USB-C to Lightning Cable (2m)", quantity: 2, price: 499000 },
+            { productId: 119, quantity: 1, price: 5899000 }, // AirPods Pro
+            { productId: 121, quantity: 1, price: 8999000 }, // Apple Watch SE
         ],
+        appliedVouchers: [],
+        shippingAddress: "642 Đường WXY, Bình Tân, TP.HCM",
+        paymentMethod: "COD",
+        note: ""
     },
     {
         id: "ORD019",
         customer: "Vũ Minh S",
-        email: "minhs@example.com",
+        email: "vuthanhs@example.com",
+        originalTotal: 799000,
+        discount: 0,
         total: 799000,
         status: STATUS.ChoXacNhan,
-        date: "2025-10-30",
+        date: new Date("2025-10-30"),
         items: [
-            { name: "iPhone SE (3rd Gen) Clear Case", quantity: 2, price: 399500 },
+            { productId: 119, quantity: 1, price: 5899000 }, // AirPods Pro
+            { productId: 121, quantity: 1, price: 8999000 }, // Apple Watch SE
         ],
+        appliedVouchers: [],
+        shippingAddress: "831 Đường ZAB, Củ Chi, TP.HCM",
+        paymentMethod: "Banking",
+        note: ""
     },
     {
         id: "ORD020",
         customer: "Phan Thị T",
-        email: "thit@example.com",
-        total: 12999000,
-        status: STATUS.ChoXacNhan,
-        date: "2025-10-30",
+        email: "phanduct@example.com",
+        originalTotal: 12999000,
+        discount: 100000,
+        total: 12899000,
+        status: STATUS.DaGiao,
+        date: new Date("2025-10-30"),
         items: [
-            { name: "iPad (10th Gen)", quantity: 1, price: 12999000 },
+            { productId: 128, quantity: 1, price: 7999000 }, // HomePod
         ],
-    },
-    {
-        id: "ORD021",
-        customer: "Nguyễn Văn U",
-        email: "vanu@example.com",
-        total: 19990000,
-        status: STATUS.ChoXacNhan,
-        date: "2025-10-31",
-        items: [
-            { name: "Studio Display", quantity: 1, price: 49980000 },
+        appliedVouchers: [
+            { voucherCode: "NEWYEAR100", discountAmount: 100000 }
         ],
-    },
-    {
-        id: "ORD022",
-        customer: "Trần Hữu V",
-        email: "huuv@example.com",
-        total: 2999000,
-        status: STATUS.DaXacNhan,
-        date: "2025-10-31",
-        items: [
-            { name: "Apple TV 4K", quantity: 1, price: 2999000 },
-        ],
-    },
-    {
-        id: "ORD023",
-        customer: "Lê Minh X",
-        email: "minhx@example.com",
-        total: 1499000,
-        status: STATUS.ChoXacNhan,
-        date: "2025-11-01",
-        items: [
-            { name: "Magic Mouse", quantity: 1, price: 1499000 },
-        ],
-    },
-    {
-        id: "ORD024",
-        customer: "Phạm Thị Y",
-        email: "thiy@example.com",
-        total: 67980000,
-        status: STATUS.ChoXacNhan,
-        date: "2025-11-01",
-        items: [
-            { name: "Mac Pro M2 Ultra", quantity: 1, price: 67980000 },
-        ],
-    },
-    {
-        id: "ORD025",
-        customer: "Hoàng Văn Z",
-        email: "vanz@example.com",
-        total: 5899000,
-        status: STATUS.ChoXacNhan,
-        date: "2025-11-02",
-        items: [
-            { name: "AirPods Pro (2nd Gen)", quantity: 1, price: 5899000 },
-        ],
-    },
-    {
-        id: "ORD026",
-        customer: "Ngô Minh A2",
-        email: "minha2@example.com",
-        total: 39990000,
-        status: STATUS.ChoXacNhan,
-        date: "2025-11-02",
-        items: [
-            { name: "iPhone 15 Pro Max", quantity: 1, price: 32990000 },
-            { name: "AirPods Max", quantity: 1, price: 7000000 },
-        ],
-    },
-    {
-        id: "ORD027",
-        customer: "Đặng Hùng B2",
-        email: "hungb2@example.com",
-        total: 1088000,
-        status: STATUS.DaXacNhan,
-        date: "2025-11-03",
-        items: [
-            { name: "Apple Polishing Cloth", quantity: 5, price: 217600 },
-        ],
-    },
-    {
-        id: "ORD028",
-        customer: "Bùi Thị C2",
-        email: "thic2@example.com",
-        total: 21489000,
-        status: STATUS.ChoXacNhan,
-        date: "2025-11-03",
-        items: [
-            { name: "Apple Watch Ultra 2", quantity: 1, price: 21489000 },
-        ],
-    },
-    {
-        id: "ORD029",
-        customer: "Vũ Văn D2",
-        email: "vand2@example.com",
-        total: 799000,
-        status: STATUS.ChoXacNhan,
-        date: "2025-11-04",
-        items: [
-            { name: "iPhone SE (3rd Gen) Clear Case", quantity: 2, price: 399500 },
-        ],
-    },
-    {
-        id: "ORD030",
-        customer: "Phan Minh E2",
-        email: "minhe2@example.com",
-        total: 28990000,
-        status: STATUS.ChoXacNhan,
-        date: "2025-11-04",
-        items: [
-            { name: "MacBook Air 15-inch M2", quantity: 1, price: 28990000 },
-        ],
-    },
-    {
-        id: "ORD031",
-        customer: "Nguyễn Thị F2",
-        email: "thif2@example.com",
-        total: 3499000,
-        status: STATUS.ChoXacNhan,
-        date: "2025-11-05",
-        items: [
-            { name: "Apple Pencil (2nd Gen)", quantity: 1, price: 3499000 },
-        ],
-    },
-    {
-        id: "ORD032",
-        customer: "Trần Văn G2",
-        email: "vang2@example.com",
-        total: 998000,
-        status: STATUS.DaXacNhan,
-        date: "2025-11-05",
-        items: [
-            { name: "USB-C to Lightning Cable (2m)", quantity: 2, price: 499000 },
-        ],
-    },
-    {
-        id: "ORD033",
-        customer: "Lê Văn H2",
-        email: "vanh2@example.com",
-        total: 48990000,
-        status: STATUS.ChoXacNhan,
-        date: "2025-11-06",
-        items: [
-            { name: "MacBook Pro M3 2024", quantity: 1, price: 48990000 },
-        ],
-    },
-    {
-        id: "ORD034",
-        customer: "Phạm Minh I2",
-        email: "mini2@example.com",
-        total: 699700,
-        status: STATUS.ChoXacNhan,
-        date: "2025-11-06",
-        items: [
-            { name: "Apple iPhone Charger", quantity: 2, price: 199900 },
-            { name: "iPhone 12 Silicone Case", quantity: 1, price: 299900 },
-        ],
+        shippingAddress: "159 Đường CDE, Hóc Môn, TP.HCM",
+        paymentMethod: "COD",
+        note: ""
     },
 ];
 
