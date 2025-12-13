@@ -2,6 +2,7 @@ import Order from "../model/Order.js";
 import Product from "../model/Product.js";
 import User from "../model/User.js";
 import Voucher from "../model/Voucher.js";
+import Cart from "../model/Cart.js";
 import ApiResponse from "../utils/ApiResponse.js";
 
 class OrdersController {
@@ -187,6 +188,15 @@ class OrdersController {
 					orderItems[i].product,
 					{ $inc: { stock: -orderItems[i].quantity } }
 				);
+			}
+
+			//remove purchased items from user's cart
+			const cart = await Cart.findOne({ userId: user._id });
+			if (cart) {
+				cart.products = cart.products.filter(cartItem => 
+					!orderItems.some(orderItem => orderItem.product.equals(cartItem.product))
+				);
+				await cart.save();
 			}
 
 			// Populate before returning
