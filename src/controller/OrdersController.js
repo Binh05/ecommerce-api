@@ -38,23 +38,16 @@ class OrdersController {
 	// POST /api/orders
 	async store(req, res, next) {
 		try {
-			const { userId, userEmail, items, shippingAddress, paymentMethod, note, voucherCodes } = req.body;
+			const userId = req.user.id; // Lấy từ authenticated user
+			const { items, shippingAddress, paymentMethod, note, voucherCodes } = req.body;
 
 			// Validate request
 			if (!items || items.length === 0) {
 				return ApiResponse.badRequest(res, "Items are required");
 			}
 
-			// Find user by userId or userEmail
-			let user;
-			if (userId) {
-				user = await User.findById(userId).populate('vouchers.voucher');
-			} else if (userEmail) {
-				user = await User.findOne({ email: userEmail }).populate('vouchers.voucher');
-			} else {
-				return ApiResponse.badRequest(res, "userId or userEmail is required");
-			}
-
+			// Find user by authenticated userId
+			const user = await User.findById(userId).populate('vouchers.voucher');
 			if (!user) {
 				return ApiResponse.badRequest(res, "User not found");
 			}
@@ -270,6 +263,41 @@ class OrdersController {
 			return ApiResponse.success(res, "Order deleted successfully");
 		} catch (err) {
 			console.error("Error deleting order:", err);
+			next(err);
+		}
+	}
+
+	// GET /api/orders/user/:userId - Lấy lịch sử đặt hàng của 1 user
+	async getUserOrders(req, res, next) {
+		try {
+			const { userId } = req.params;
+
+			// Tìm user để validate
+			const user = await User.findById(userId);
+			if (!user) {
+				return ApiResponse.badRequest(res, "User not found");
+			}
+
+			// Lấy tất cả orders của user, sắp xếp theo ngày mới nhất
+			const orders = await Order.find({ user: userId })
+				.populate('items.product', 'title thumbnail price category')
+				.populate('appliedVouchers.voucher', 'code description discountAmount discountPercent maxDiscount')
+				.sort({ date: -1 });
+
+			console.log(`📋 Fetched ${orders.length} orders for user ${user.email}`);
+
+			return ApiResponse.success(res, {
+				user: {
+					_id: user._id,
+					username: user.username,
+					email: user.email,
+					avatar: user.avatar
+				},
+				orders: orders,
+				totalOrders: orders.length
+			});
+		} catch (err) {
+			console.error("Error fetching user orders:", err);
 			next(err);
 		}
 	}

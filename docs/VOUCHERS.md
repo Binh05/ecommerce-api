@@ -383,21 +383,22 @@ User nhận voucher để thêm vào tài khoản của mình.
 
 ```http
 POST /api/vouchers/:id/claim
+Authorization: Bearer <access_token>
 Content-Type: application/json
 ```
 
 **Tham Số:**
 - `id` (path, bắt buộc) - MongoDB ObjectId của voucher
 
-**Request Body:**
-```json
-{
-  "userId": "674a1b2c3d4e5f..."
-}
-```
+**Lưu ý:**
+- User ID được lấy từ token (không cần gửi trong body)
+- Yêu cầu authentication
 
-**Trường Bắt Buộc:**
-- `userId` (string) - MongoDB ObjectId của user
+**Ví Dụ:**
+```http
+POST /api/vouchers/674a1b2c3d4e5f.../claim
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+```
 
 **Response Thành Công (200):**
 ```json
@@ -476,18 +477,21 @@ Chưa đến hoặc quá thời gian nhận:
 ---
 
 ### 9. Lấy Danh Sách Vouchers Của User
-Lấy tất cả vouchers còn hiệu lực của một user cụ thể.
+Lấy tất cả vouchers còn hiệu lực của user đã đăng nhập.
 
 ```http
-GET /api/vouchers/user/:userId
+GET /api/vouchers/user
+Authorization: Bearer <access_token>
 ```
 
-**Tham Số:**
-- `userId` (path, bắt buộc) - MongoDB ObjectId của user
+**Lưu ý:**
+- User ID được lấy từ token (không cần params)
+- Yêu cầu authentication
 
 **Ví Dụ:**
 ```http
-GET /api/vouchers/user/674a1b2c3d4e5f...
+GET /api/vouchers/user
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
 ```
 
 **Response:**

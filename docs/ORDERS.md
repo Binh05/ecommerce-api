@@ -126,17 +126,17 @@ GET /api/orders/1001
 ---
 
 ### 3. Tạo Đơn Hàng
-Tạo một đơn hàng mới với người dùng và sản phẩm.
+Tạo một đơn hàng mới cho user đã đăng nhập.
 
 ```http
 POST /api/orders
+Authorization: Bearer <access_token>
 Content-Type: application/json
 ```
 
-**Nội dung yêu cầu (Tùy chọn 1 - Sử dụng ID người dùng):**
+**Request Body:**
 ```json
 {
-  "userId": "674a1b2c3d4e5f...",
   "items": [
     {
       "productId": "674c1a2b3c4d...",
@@ -149,40 +149,29 @@ Content-Type: application/json
   ],
   "shippingAddress": "456 Elm Street, City",
   "paymentMethod": "COD",
-  "note": "Please deliver after 5 PM"
+  "note": "Vui lòng giao sau 5 giờ chiều",
+  "voucherCodes": ["FLASH50"]
+}
+```
+  "voucherCodes": ["FLASH50"]
 }
 ```
 
-**Nội dung yêu cầu (Tùy chọn 2 - Sử dụng Email người dùng):**
-```json
-{
-  "userEmail": "john@example.com",
-  "items": [
-    {
-      "productId": "1",
-      "quantity": 2
-    },
-    {
-      "productId": "2",
-      "quantity": 1
-    }
-  ],
-  "shippingAddress": "456 Elm Street, City",
-  "paymentMethod": "COD",
-  "note": "Call before delivery"
-}
-```
+**Trường Bắt Buộc:**
+- `items` (array) - Mảng sản phẩm (ít nhất 1)
+  - `productId` (ObjectId string HOẶC number) - ID sản phẩm (hỗ trợ MongoDB _id và custom id)
+  - `quantity` (number) - Số lượng (đảm bảo > 0)
 
-**Trường bắt buộc:**
-- `userId` (chuỗi ObjectId) HOẶC `userEmail` (chuỗi) - Người dùng đặt hàng
-- `items` (mảng) - Mảng các sản phẩm đặt hàng (tối thiểu 1 sản phẩm)
-  - `productId` (chuỗi ObjectId HOẶC số) - ID sản phẩm (hỗ trợ cả MongoDB _id và id tùy chỉnh)
-  - `quantity` (số) - Số lượng đặt hàng (phải > 0)
+**Trường Tùy Chọn:**
+- `shippingAddress` (string) - Địa chỉ giao hàng (mặc định: địa chỉ của user)
+- `paymentMethod` (string) - Phương thức thanh toán (mặc định: "COD")
+- `note` (string) - Ghi chú đơn hàng
+- `voucherCodes` (array) - Mảng mã voucher để áp dụng
 
-**Trường tùy chọn:**
-- `shippingAddress` (chuỗi) - Địa chỉ giao hàng (mặc định là địa chỉ đã lưu của người dùng hoặc "N/A")
-- `paymentMethod` (chuỗi) - Phương thức thanh toán (mặc định là "COD")
-- `note` (chuỗi) - Ghi chú đơn hàng/yêu cầu đặc biệt
+**Lưu Ý:**
+- User ID được lấy từ token (không cần gửi trong body)
+- Yêu cầu authentication (Bearer token)
+- Vouchers chỉ áp dụng nếu user đã claim trước đó
 
 **Phản hồi thành công (201):**
 ```json
