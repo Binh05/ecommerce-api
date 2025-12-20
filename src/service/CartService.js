@@ -4,7 +4,7 @@ import Product from "../model/Product.js";
 class CartService {
     // Lấy giỏ hàng của người dùng
     async getCartByUserId(userId) {
-        let cart = await Cart.findOne({ userId }).populate('products.product');
+        let cart = await Cart.findOne({ userId }).populate("products.product");
         if (!cart) {
             cart = new Cart({ userId, products: [] });
             await cart.save();
@@ -18,14 +18,16 @@ class CartService {
         if (!product) {
             throw new Error("Product not found");
         }
-        const existingItemIndex = cart.products.findIndex(item => item.product._id == productId);
+        const existingItemIndex = cart.products.findIndex(
+            (item) => item.product._id == productId
+        );
         if (existingItemIndex >= 0) {
             cart.products[existingItemIndex].quantity += quantity;
         } else {
             cart.products.push({
                 product: productId,
                 quantity,
-                price: product.price
+                price: product.price,
             });
         }
         await cart.save();
@@ -34,7 +36,9 @@ class CartService {
     // Cập nhật số lượng sản phẩm trong giỏ hàng
     async updateCartItem(userId, productId, quantity) {
         const cart = await this.getCartByUserId(userId);
-        const itemIndex = cart.products.findIndex(item => item.product._id == productId);
+        const itemIndex = cart.products.findIndex(
+            (item) => item.product._id == productId
+        );
         if (itemIndex >= 0) {
             if (quantity <= 0) {
                 cart.products.splice(itemIndex, 1);
@@ -48,7 +52,9 @@ class CartService {
     // Xóa sản phẩm khỏi giỏ hàng
     async removeFromCart(userId, productId) {
         const cart = await this.getCartByUserId(userId);
-        cart.products = cart.products.filter(item => item.product._id != productId);
+        cart.products = cart.products.filter(
+            (item) => item.product._id != productId
+        );
         await cart.save();
         return cart;
     }
@@ -65,12 +71,11 @@ class CartService {
     async calculateTotal(userId) {
         const cart = await this.getCartByUserId(userId);
         let total = 0;
-        cart.products.forEach(item => {
+        cart.products.forEach((item) => {
             total += item.price * item.quantity;
         });
         return total;
-    }        
-
+    }
 }
 
 export default new CartService();
