@@ -52,13 +52,36 @@ class VoucherController {
     async available(req, res, next) {
         try {
             const now = new Date();
-            const vouchers = await Voucher.find({
+            const { userId } = req.query;
+
+            // Nếu có userId, loại bỏ các voucher user đã nhận
+            let claimedVoucherIds = [];
+            if (userId) {
+                try {
+                    const user = await User.findById(userId).select("vouchers.voucher");
+                    if (user && Array.isArray(user.vouchers)) {
+                        claimedVoucherIds = user.vouchers
+                            .map(v => v?.voucher)
+                            .filter(Boolean);
+                    }
+                } catch (e) {
+                    // Không chặn luồng nếu lỗi, tiếp tục trả về vouchers công khai
+                    console.warn("Warn: unable to load user vouchers for available filter:", e?.message || e);
+                }
+            }
+
+            const match = {
                 isActive: true,
                 receiveStartTime: { $lte: now },
                 receiveEndTime: { $gte: now },
                 $expr: { $lt: ["$claimedCount", "$totalQuantity"] }
-            }).sort({ receiveEndTime: 1 });
-            
+            };
+
+            if (claimedVoucherIds.length > 0) {
+                match._id = { $nin: claimedVoucherIds };
+            }
+
+            const vouchers = await Voucher.find(match).sort({ receiveEndTime: 1 });
             return ApiResponse.success(res, vouchers);
         } catch (err) {
             console.error("Error fetching available vouchers:", err);
