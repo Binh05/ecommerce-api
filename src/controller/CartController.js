@@ -4,7 +4,7 @@ class CartController {
     // Lấy giỏ hàng của người dùng
     async getCart(req, res) {
         try {
-            const userId = req.user.id;
+            const userId = req.user._id.toString();
             const cart = await CartService.getCartByUserId(userId);
             res.status(200).json(cart);
         } catch (error) {
@@ -17,10 +17,14 @@ class CartController {
         try {
             const userId = req.user.id;
             const { productId, quantity } = req.body;
-            const cart = await CartService.addToCart(userId, productId, quantity);
+            const cart = await CartService.addToCart(
+                userId,
+                productId,
+                quantity
+            );
             res.status(200).json(cart);
-        }
-        catch (error) {
+        } catch (error) {
+            console.error("Loi khi chay ham add cart", error);
             res.status(500).json({ message: error.message });
         }
     }
@@ -29,7 +33,11 @@ class CartController {
         try {
             const userId = req.user.id;
             const { productId, quantity } = req.body;
-            const cart = await CartService.updateCartItem(userId, productId, quantity);
+            const cart = await CartService.updateCartItem(
+                userId,
+                productId,
+                quantity
+            );
             res.status(200).json(cart);
         } catch (error) {
             res.status(500).json({ message: error.message });
