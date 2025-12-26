@@ -17,7 +17,9 @@ class UserController {
     async show(req, res, next) {
         try {
             const { id } = req.params;
-            const user = await User.findById(id).select("-password -refreshToken");
+            const user = await User.findById(id).select(
+                "-password -refreshToken"
+            );
             if (!user) return ApiResponse.badRequest(res, "User not found");
             return ApiResponse.success(res, user);
         } catch (err) {
@@ -30,13 +32,12 @@ class UserController {
         try {
             const { id } = req.params;
             const { password, ...updateData } = req.body; // Không cho phép update password qua route này
-            
-            const updated = await User.findByIdAndUpdate(
-                id,
-                updateData,
-                { new: true, runValidators: true }
-            ).select("-password -refreshToken");
-            
+
+            const updated = await User.findByIdAndUpdate(id, updateData, {
+                new: true,
+                runValidators: true,
+            }).select("-password -refreshToken");
+
             if (!updated) return ApiResponse.badRequest(res, "User not found");
             return ApiResponse.success(res, updated);
         } catch (err) {
@@ -58,10 +59,14 @@ class UserController {
 
     async register(req, res, next) {
         try {
-            const {username, email, password} = req.body;
+            const { username, email, password } = req.body;
 
-            const result = await UserService.register(username, email, password);
-            
+            const result = await UserService.register(
+                username,
+                email,
+                password
+            );
+
             const refreshToken = result.refreshToken;
 
             res.cookie("refreshToken", refreshToken, {
@@ -71,15 +76,14 @@ class UserController {
             });
 
             return ApiResponse.success(res, result.accessToken);
-        }
-        catch(err) {
+        } catch (err) {
             next(err);
         }
     }
 
     async login(req, res, next) {
         try {
-            const {email, password} = req.body;
+            const { email, password } = req.body;
             const result = await UserService.login(email, password);
             const refreshToken = result.refreshToken;
 
@@ -91,22 +95,23 @@ class UserController {
 
             return ApiResponse.success(res, {
                 accessToken: result.accessToken,
-                role: result.role
+                role: result.role,
+                userId: result._id,
             });
-        }
-        catch(err) {
+        } catch (err) {
             next(err);
         }
     }
 
     async refresh(req, res, next) {
-        try{
+        try {
             const { refreshToken } = req.cookies;
-            const accessToken = await UserService.refresh(refreshToken);
-            
-            return ApiResponse.success(res, accessToken);
-        }
-        catch(err) {
+            const { accessToken, userId } = await UserService.refresh(
+                refreshToken
+            );
+
+            return ApiResponse.success(res, { accessToken, userId });
+        } catch (err) {
             next(err);
         }
     }
@@ -114,16 +119,14 @@ class UserController {
     async logout(req, res, next) {
         try {
             const { refreshToken } = req.cookies;
-            if (!refreshToken) 
-                return res.sendStatus(204);
-            
+            if (!refreshToken) return res.sendStatus(204);
+
             const isLogout = await UserService.logout(refreshToken);
             res.clearCookie("refreshToken");
 
             if (isLogout)
-                return ApiResponse.success(res,"Logged out successfully");
-        }
-        catch(err) {
+                return ApiResponse.success(res, "Logged out successfully");
+        } catch (err) {
             next(err);
         }
     }
