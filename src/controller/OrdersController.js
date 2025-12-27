@@ -4,6 +4,7 @@ import User from "../model/User.js";
 import Voucher from "../model/Voucher.js";
 import Cart from "../model/Cart.js";
 import ApiResponse from "../utils/ApiResponse.js";
+import mongoose from "mongoose";
 
 class OrdersController {
 	// GET /api/orders
@@ -38,8 +39,23 @@ class OrdersController {
 	// POST /api/orders
 	async store(req, res, next) {
 		try {
-			const userId = req.user.id; // Lấy từ authenticated user
-			const { items, shippingAddress, paymentMethod, note, voucherCodes } = req.body;
+			const userId = req.user?.id || req.user?._id?.toString(); // Lấy từ authenticated user
+			if (!userId) {
+				return ApiResponse.unauthorized(res, "Unauthorized");
+			}
+			const { items, shippingAddress, paymentMethod, note, voucherCodes, receiverName, receiverPhone } = req.body;
+
+			const receiverNameValue = String(receiverName || "").trim();
+			const receiverPhoneValue = String(receiverPhone || "").trim();
+			if (!receiverNameValue) {
+				return ApiResponse.badRequest(res, "receiverName is required");
+			}
+			if (!receiverPhoneValue) {
+				return ApiResponse.badRequest(res, "receiverPhone is required");
+			}
+			if (!/^[0-9]{9,11}$/.test(receiverPhoneValue.replace(/\s/g, ""))) {
+				return ApiResponse.badRequest(res, "receiverPhone is invalid");
+			}
 
 			// Validate request
 			if (!items || items.length === 0) {
@@ -67,11 +83,19 @@ class OrdersController {
 					return ApiResponse.badRequest(res, "Quantity must be greater than 0");
 				}
 
-				// Find product by MongoDB _id or custom id field
-				let product = await Product.findById(item.productId);
+				// Find product by MongoDB _id (ObjectId) or custom numeric id field
+				const rawProductId = item.productId;
+				const productIdStr = String(rawProductId);
+				const isObjectId = mongoose.Types.ObjectId.isValid(productIdStr) && /^[0-9a-fA-F]{24}$/.test(productIdStr);
+				let product = null;
+				if (isObjectId) {
+					product = await Product.findById(productIdStr);
+				}
 				if (!product) {
-					// Try finding by custom id field
-					product = await Product.findOne({ id: parseInt(item.productId) });
+					const numericId = Number(rawProductId);
+					if (!Number.isNaN(numericId)) {
+						product = await Product.findOne({ id: numericId });
+					}
 				}
 
 				if (!product) {
@@ -155,14 +179,40 @@ class OrdersController {
 			// Calculate final total
 			const finalTotal = Math.max(0, originalTotal - totalDiscount);
 
-			// Generate sequential order ID
-			const maxOrder = await Order.findOne().sort({ id: -1 }).limit(1);
-			const newId = maxOrder ? String(parseInt(maxOrder.id) + 1) : "1";
+			// Generate sequential order ID in format ORD001
+			const [ordAgg] = await Order.aggregate([
+				{ $match: { id: { $regex: /^ORD\d+$/ } } },
+				{
+					$project: {
+						num: {
+							$toInt: {
+								$substrBytes: [
+									"$id",
+									3,
+									{ $subtract: [{ $strLenBytes: "$id" }, 3] },
+								],
+							},
+						},
+					},
+				},
+				{ $group: { _id: null, maxNum: { $max: "$num" } } },
+			]);
+			const [legacyAgg] = await Order.aggregate([
+				{ $match: { id: { $regex: /^\d+$/ } } },
+				{ $project: { num: { $toInt: "$id" } } },
+				{ $group: { _id: null, maxNum: { $max: "$num" } } },
+			]);
+			const maxOrd = ordAgg?.maxNum || 0;
+			const maxLegacy = legacyAgg?.maxNum || 0;
+			const nextNum = Math.max(maxOrd, maxLegacy) + 1;
+			const newId = `ORD${String(nextNum).padStart(3, "0")}`;
 
 			// Create order
 			const newOrder = new Order({
 				id: newId,
 				user: user._id,
+				receiverName: receiverNameValue,
+				receiverPhone: receiverPhoneValue.replace(/\s/g, ""),
 				items: orderItems,
 				originalTotal,
 				discount: totalDiscount,

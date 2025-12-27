@@ -28,6 +28,8 @@ const orderSchema = new mongoose.Schema(
             ref: 'User', 
             required: true 
         },
+        receiverName: { type: String, required: true },
+        receiverPhone: { type: String, required: true },
         total: { type: Number, required: true },
         originalTotal: { type: Number, required: true }, // Tổng tiền trước khi giảm
         discount: { type: Number, default: 0 }, // Tổng số tiền giảm
