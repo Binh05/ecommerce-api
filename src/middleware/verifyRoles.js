@@ -4,12 +4,11 @@ import ApiResponse from "../utils/ApiResponse.js";
 import dotenv from "dotenv";
 dotenv.config();
 
-const JWT_SECRET = process.env.ACCESS_TOKEN_SECRET;
+const JWT_SECRET = process.env.ACCESS_TOKEN_SECRET || "mysecretkey";
 
 const verifyRoles = (...allowedRoles) => {
     return async (req, res, next) => {
         try {
-            const cookieToken = req.cookies?.token;
             const headerToken = req.headers["authorization"]?.split(" ")[1];
             const token = headerToken;
             if (!token) {
