@@ -275,6 +275,12 @@ class OrdersController {
 				return ApiResponse.badRequest(res, "Status is required");
 			}
 
+			const existing = await Order.findOne({ id: String(id) });
+			if (!existing) return ApiResponse.badRequest(res, "Order not found");
+			if (existing.status === "Đã hủy" && status === "Đã xác nhận") {
+				return ApiResponse.badRequest(res, "Đơn hàng đã bị hủy");
+			}
+
 			const updated = await Order.findOneAndUpdate(
 				{ id: String(id) },
 				{ status },
@@ -287,6 +293,79 @@ class OrdersController {
 			return ApiResponse.success(res, updated);
 		} catch (err) {
 			console.error("Error updating order:", err);
+			next(err);
+		}
+	}
+
+	// PUT /api/orders/:id/cancel
+	async cancel(req, res, next) {
+		try {
+			const { id } = req.params;
+			const requester = req.user;
+			if (!requester) {
+				return ApiResponse.unauthorized(res, "Unauthorized");
+			}
+
+			const order = await Order.findOne({ id: String(id) });
+			if (!order) return ApiResponse.badRequest(res, "Order not found");
+
+			// User can only cancel their own order
+			if (requester.role !== "ADMIN") {
+				if (order.user.toString() !== requester._id.toString()) {
+					return ApiResponse.unauthorized(res, "You do not have permission to cancel this order");
+				}
+				if (order.status !== "Chờ xác nhận") {
+					return ApiResponse.badRequest(res, "Chỉ có thể hủy đơn khi đang chờ xác nhận");
+				}
+			}
+
+			if (order.status === "Đã hủy") {
+				return ApiResponse.success(res, order);
+			}
+
+			// Restore product stock
+			for (const item of order.items || []) {
+				await Product.findByIdAndUpdate(
+					item.product,
+					{ $inc: { stock: item.quantity } }
+				);
+			}
+
+			// Revert voucher usage (best-effort)
+			try {
+				const user = await User.findById(order.user);
+				if (user && Array.isArray(order.appliedVouchers) && order.appliedVouchers.length > 0) {
+					for (const av of order.appliedVouchers) {
+						// Mark user's voucher as unused again
+						const uv = user.vouchers?.find((x) => x.voucher?.toString() === av.voucher?.toString());
+						if (uv) uv.isUsed = false;
+
+						// Decrement usedCount safely
+						if (av.voucher) {
+							const voucher = await Voucher.findById(av.voucher);
+							if (voucher) {
+								voucher.usedCount = Math.max(0, (voucher.usedCount || 0) - 1);
+								await voucher.save();
+							}
+						}
+					}
+					await user.save();
+				}
+			} catch (e) {
+				console.warn("Voucher revert failed:", e?.message || e);
+			}
+
+			order.status = "Đã hủy";
+			const saved = await order.save();
+
+			const populatedOrder = await Order.findById(saved._id)
+				.populate('user', 'username email avatar address')
+				.populate('items.product', 'title thumbnail price stock category')
+				.populate('appliedVouchers.voucher', 'code description');
+
+			return ApiResponse.success(res, populatedOrder);
+		} catch (err) {
+			console.error("Error cancelling order:", err);
 			next(err);
 		}
 	}
