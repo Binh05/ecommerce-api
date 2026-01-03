@@ -40,11 +40,11 @@ class UserService {
         user.refreshToken = refreshToken;
         user.save();
 
+
         return {
             refreshToken,
             accessToken,
             role: user.role,
-            _id: user._id,
         };
     }
 

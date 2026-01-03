@@ -179,7 +179,6 @@ class UserController {
             return ApiResponse.success(res, {
                 accessToken: result.accessToken,
                 role: result.role,
-                userId: result._id,
             });
         } catch (err) {
             next(err);
