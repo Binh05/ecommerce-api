@@ -15,10 +15,27 @@ const PORT = process.env.PORT || 3000;
 const DB_URI = process.env.DB_URI;
 
 app.use(morgan("combined"));
+
+const allowedOrigins = [
+    "http://localhost:5173",
+    "https://ecommerce-peach-rho-26.vercel.app/",
+    "https://www.your-official-domain.com"
+];
+
 app.use(cors({
-    origin: "http://localhost:5173", // URL frontend của bạn
-    credentials: true // Cho phép gửi cookie/token
+    origin: function (origin, callback) {
+        // Cho phép các request không có origin (như Postman hoặc thiết bị di động)
+        if (!origin) return callback(null, true);
+        
+        if (allowedOrigins.indexOf(origin) !== -1) {
+            callback(null, true);
+        } else {
+            callback(new Error('CORS không cho phép domain này!'));
+        }
+    },
+    credentials: true
 }));
+
 // Tăng giới hạn payload để hỗ trợ upload ảnh base64 (max 10MB)
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ limit: '10mb', extended: true }));
