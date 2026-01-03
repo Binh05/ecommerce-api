@@ -18,7 +18,7 @@ app.use(morgan("combined"));
 
 const allowedOrigins = [
     "http://localhost:5173",
-    "https://ecommerce-peach-rho-26.vercel.app/",
+    "https://ecommerce-peach-rho-26.vercel.app",
     "https://www.your-official-domain.com"
 ];
 
